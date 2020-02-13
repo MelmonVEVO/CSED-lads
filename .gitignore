@@ -29,7 +29,3 @@ hs_err_pid*
 *.PREFS
 *.PROJECT
 *.CLASSPATH
-
-# IntelliJ artifacts
-*.iml
-*.xml
