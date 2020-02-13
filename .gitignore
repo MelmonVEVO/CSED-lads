@@ -24,3 +24,12 @@ hs_err_pid*
 
 # Mac trash
 *.DS_STORE
+
+# Eclipse artifacts
+*.PREFS
+*.PROJECT
+*.CLASSPATH
+
+# IntelliJ artifacts
+*.iml
+*.xml
