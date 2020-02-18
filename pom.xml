@@ -8,6 +8,10 @@
     <artifactId>csed</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <!-- External libraries go here -->
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
