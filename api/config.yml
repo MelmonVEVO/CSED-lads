@@ -1,0 +1,19 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 3000
+  adminConnectors: []
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      target: stdout
+      logFormat: "[%d{HH:mm:ss yyyy-MM-dd}] [%level] %msg%n"
+
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: "jdbc:mysql://localhost:3306/csed?autoReconnect=true&useSSL=false&serverTimezone=UTC"
+  user: root
