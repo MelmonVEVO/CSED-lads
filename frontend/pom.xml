@@ -16,6 +16,10 @@
     <name>frontend</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.asynchttpclient</groupId>
+            <artifactId>async-http-client</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

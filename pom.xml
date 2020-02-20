@@ -21,6 +21,8 @@
         <bcrypt.version>0.3m</bcrypt.version>
         <slf4j.version>1.7.25</slf4j.version>
         <mysql.version>6.0.6</mysql.version>
+        <asynchttpclient.version>2.0.34</asynchttpclient.version>
+        <json.version>20190722</json.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -45,11 +47,32 @@
                 <version>${dropwizard.version}</version>
             </dependency>
 
+            <!-- JSON processing -->
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+
+            <!-- Password encryption -->
+            <dependency>
+                <groupId>org.mindrot</groupId>
+                <artifactId>jbcrypt</artifactId>
+                <version>${bcrypt.version}</version>
+            </dependency>
+
             <!-- MySQL -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- HTTP client -->
+            <dependency>
+                <groupId>org.asynchttpclient</groupId>
+                <artifactId>async-http-client</artifactId>
+                <version>${asynchttpclient.version}</version>
             </dependency>
 
             <!-- Logging -->

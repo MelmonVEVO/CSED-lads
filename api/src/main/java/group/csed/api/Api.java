@@ -1,5 +1,7 @@
 package group.csed.api;
 
+import group.csed.api.account.AccountDao;
+import group.csed.api.account.AccountResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
@@ -19,5 +21,17 @@ public class Api extends Application<ApiConfig> {
         database.setPassword(System.getenv("DB_PASSWORD"));
 
         final DBI dbi = factory.build(environment, database, "mysql");
+        registerResources(environment, dbi);
+    }
+
+    /**
+     * Registers API routes
+     * @param environment
+     * @param dbi
+     */
+    private void registerResources(Environment environment, DBI dbi) {
+        final AccountDao accountDao = dbi.onDemand(AccountDao.class);
+
+        environment.jersey().register(new AccountResource(accountDao));
     }
 }
