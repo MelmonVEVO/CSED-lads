@@ -21,7 +21,7 @@
         <bcrypt.version>0.3m</bcrypt.version>
         <slf4j.version>1.7.25</slf4j.version>
         <mysql.version>6.0.6</mysql.version>
-        <asynchttpclient.version>2.0.34</asynchttpclient.version>
+        <asynchttpclient.version>2.0.35</asynchttpclient.version>
         <json.version>20190722</json.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
