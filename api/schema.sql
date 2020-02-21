@@ -9,3 +9,14 @@ password VARCHAR(72) NOT NULL,
 dob DATE,
 created DATETIME,
 PRIMARY KEY(id));
+
+CREATE TABLE mood(id INT UNSIGNED,
+description VARCHAR(20) NOT NULL,
+recorded_at DATETIME,
+FOREIGN KEY(id) REFERENCES account(id));
+
+CREATE TABLE tracker(id INT UNSIGNED,
+start_date DATE NOT NULL,
+lasted INT NOT NULL,
+cycle_length INT NOT NULL,
+FOREIGN KEY(id) REFERENCES account(id));
