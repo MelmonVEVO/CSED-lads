@@ -16,7 +16,7 @@ recorded_at DATETIME,
 FOREIGN KEY(id) REFERENCES account(id));
 
 CREATE TABLE tracker(id INT UNSIGNED,
-start_date DATE NOT NULL,
+started DATE NOT NULL,
 lasted INT NOT NULL,
 cycle_length INT NOT NULL,
 FOREIGN KEY(id) REFERENCES account(id));
