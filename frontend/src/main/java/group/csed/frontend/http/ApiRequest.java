@@ -35,6 +35,28 @@ public class ApiRequest {
         runCallback(callback, Status.FAIL);
     }
 
+    public static void createAccount(String email, String firstName, String lastName, String password, String dob, CallbackEmpty callback) {
+        try {
+            final Response response = post(new JSONObject()
+                    .put("email", email)
+                    .put("firstName", firstName)
+                    .put("lastName", lastName)
+                    .put("password", password)
+                    .put("dob", dob), "accounts", "create");
+
+            if(response.getStatusCode() == 200) {
+                final JSONObject responseBody = new JSONObject(response.getResponseBody());
+                if(responseBody.getBoolean("success")) {
+                    runCallback(callback, Status.OK);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        runCallback(callback, Status.FAIL);
+    }
+
     private static void runCallback(Callback<?> callback, Status status) {
         runCallback(callback, status, null);
     }
