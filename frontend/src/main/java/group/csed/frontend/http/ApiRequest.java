@@ -22,12 +22,8 @@ public class ApiRequest {
     public static void login(String email, String password, CallbackEmpty callback) {
         try {
             final Response response = post(new JSONObject().put("email", email).put("password", password), "accounts", "login");
-            if(response.getStatusCode() == 200) {
-                final JSONObject responseBody = new JSONObject(response.getResponseBody());
-                if(responseBody.getBoolean("success")) {
-                    runCallback(callback, Status.OK);
-                    return;
-                }
+            if(postRequestSuccessful(response)) {
+                runCallback(callback, Status.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,18 +39,37 @@ public class ApiRequest {
                     .put("lastName", lastName)
                     .put("password", password)
                     .put("dob", dob), "accounts", "create");
-
-            if(response.getStatusCode() == 200) {
-                final JSONObject responseBody = new JSONObject(response.getResponseBody());
-                if(responseBody.getBoolean("success")) {
-                    runCallback(callback, Status.OK);
-                    return;
-                }
+            if(postRequestSuccessful(response)) {
+                runCallback(callback, Status.OK);
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         runCallback(callback, Status.FAIL);
+    }
+
+    public static void trackMood(int accountId, String description, CallbackEmpty callback) {
+        try {
+            final Response response = post(new JSONObject().put("id", accountId).put("description", description), "mood");
+            if(postRequestSuccessful(response)) {
+                runCallback(callback, Status.OK);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        runCallback(callback, Status.FAIL);
+    }
+
+    private static boolean postRequestSuccessful(Response response) {
+        if(response.getStatusCode() == 200) {
+            final JSONObject responseBody = new JSONObject(response.getResponseBody());
+            if(responseBody.getBoolean("success")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void runCallback(Callback<?> callback, Status status) {

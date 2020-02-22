@@ -47,8 +47,4 @@ public class Account {
     public String getCreated() {
         return created;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

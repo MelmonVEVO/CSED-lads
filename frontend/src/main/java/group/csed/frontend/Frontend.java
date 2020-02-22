@@ -23,6 +23,14 @@ public class Frontend {
                 System.out.println("Account with that email already exists");
             }
         });
+        // MOOD TRACKING EXAMPLE
+        ApiRequest.trackMood(1, "test mood", status -> {
+            if(status == Status.OK) {
+                System.out.println("Added entry");
+            } else {
+                System.out.println("Mood already entered for today");
+            }
+        });
     }
 
     public static void main(String[] args) {

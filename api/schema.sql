@@ -12,7 +12,7 @@ PRIMARY KEY(id));
 
 CREATE TABLE mood(id INT UNSIGNED,
 description VARCHAR(20) NOT NULL,
-recorded_at DATETIME,
+recorded_at DATE NOT NULL,
 FOREIGN KEY(id) REFERENCES account(id));
 
 CREATE TABLE tracker(id INT UNSIGNED,

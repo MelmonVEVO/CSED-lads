@@ -2,6 +2,8 @@ package group.csed.api;
 
 import group.csed.api.account.AccountDao;
 import group.csed.api.account.AccountResource;
+import group.csed.api.mood.MoodDao;
+import group.csed.api.mood.MoodResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
@@ -31,7 +33,9 @@ public class Api extends Application<ApiConfig> {
      */
     private void registerResources(Environment environment, DBI dbi) {
         final AccountDao accountDao = dbi.onDemand(AccountDao.class);
+        final MoodDao moodDao = dbi.onDemand(MoodDao.class);
 
         environment.jersey().register(new AccountResource(accountDao));
+        environment.jersey().register(new MoodResource(moodDao));
     }
 }
