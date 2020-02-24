@@ -17,6 +17,7 @@ FOREIGN KEY(id) REFERENCES account(id));
 
 CREATE TABLE tracker(id INT UNSIGNED,
 started DATE NOT NULL,
-lasted INT NOT NULL,
-cycle_length INT NOT NULL,
+lasted INT UNSIGNED NOT NULL,
+cycle_length INT UNSIGNED NOT NULL,
+PRIMARY KEY(id),
 FOREIGN KEY(id) REFERENCES account(id));
