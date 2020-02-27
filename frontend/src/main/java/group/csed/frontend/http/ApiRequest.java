@@ -62,6 +62,23 @@ public class ApiRequest {
         runCallback(callback, Status.FAIL);
     }
 
+    public static void savePeriodData(int accountId, String started, int lasted, int cycleLength, CallbackEmpty callback) {
+        try {
+            final Response response = post(new JSONObject()
+                    .put("id", accountId)
+                    .put("started", started)
+                    .put("lasted", lasted)
+                    .put("cycleLength", cycleLength), "period-tracker", "create");
+            if(postRequestSuccessful(response)) {
+                runCallback(callback, Status.OK);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        runCallback(callback, Status.FAIL);
+    }
+
     private static boolean postRequestSuccessful(Response response) {
         if(response.getStatusCode() == 200) {
             final JSONObject responseBody = new JSONObject(response.getResponseBody());
