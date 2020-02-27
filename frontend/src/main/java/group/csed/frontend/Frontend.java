@@ -1,5 +1,9 @@
 package group.csed.frontend;
 
+import group.csed.frontend.http.ApiRequest;
+import group.csed.frontend.http.Status;
+import group.csed.frontend.http.models.PeriodData;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,11 +14,18 @@ public class Frontend {
 
     public Frontend() {
         this.consoleReader = new BufferedReader(new InputStreamReader(System.in));
+
+        // GET DATA EXAMPLE
+        ApiRequest.getPeriodData(1, (status, response) -> {
+            if(status == Status.OK) {
+                final PeriodData data = response;
+                System.out.println(data.getCycleLength() + " : " + data.getLasted() + " : " + data.getStarted());
+            }
+        });
     }
 
     private void login() {
         System.out.println("Please enter email:");
-
     }
 
     private String readConsole() {
