@@ -1,4 +1,4 @@
-package src.main.java.group.csed.api.algorithms;
+package group.csed.api.algorithms;
 
 public class LastingCycleAlg {
 	LastingCycleAlg() { }
