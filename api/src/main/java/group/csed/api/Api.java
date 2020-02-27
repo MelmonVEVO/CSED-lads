@@ -4,6 +4,8 @@ import group.csed.api.account.AccountDao;
 import group.csed.api.account.AccountResource;
 import group.csed.api.mood.MoodDao;
 import group.csed.api.mood.MoodResource;
+import group.csed.api.tracker.TrackerDao;
+import group.csed.api.tracker.TrackerResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
@@ -34,8 +36,10 @@ public class Api extends Application<ApiConfig> {
     private void registerResources(Environment environment, DBI dbi) {
         final AccountDao accountDao = dbi.onDemand(AccountDao.class);
         final MoodDao moodDao = dbi.onDemand(MoodDao.class);
+        final TrackerDao trackerDao = dbi.onDemand(TrackerDao.class);
 
         environment.jersey().register(new AccountResource(accountDao));
         environment.jersey().register(new MoodResource(moodDao));
+        environment.jersey().register(new TrackerResource(trackerDao));
     }
 }
