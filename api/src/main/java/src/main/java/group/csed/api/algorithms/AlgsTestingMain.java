@@ -28,4 +28,5 @@ public class AlgsTestingMain {
 		int cLength = Integer.parseInt(userInput.nextLine()); // cycle length (in days)
 		System.out.println("Data inputted!");
 	}
+
 }

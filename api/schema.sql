@@ -20,3 +20,8 @@ started DATE NOT NULL,
 lasted INT NOT NULL,
 cycle_length INT NOT NULL,
 FOREIGN KEY(id) REFERENCES account(id));
+
+CREATE TABLE intensity(id INT UNSIGNED,
+intensity INT NOT NULL,
+recorded_at DATE NOT NULL,
+FOREIGN KEY(id) REFERENCED account(id));
