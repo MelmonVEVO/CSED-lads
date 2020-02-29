@@ -37,10 +37,10 @@ public class ApiRequest {
         return null;
     }
 
-    public static void login(String email, String password, CallbackEmpty callback) {
+    public static void login(String email, String password, Callback<Integer> callback) {
         final Response response = post(new JSONObject().put("email", email).put("password", password), "accounts", "login");
         if(postRequestSuccessful(response)) {
-            runCallback(callback, Status.OK);
+            runCallback(callback, Status.OK, new JSONObject(response.getResponseBody()).getInt("id"));
             return;
         }
         runCallback(callback, Status.FAIL);
