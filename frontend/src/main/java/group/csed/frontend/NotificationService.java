@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.TrayIcon;
 import java.awt.Toolkit;
 import java.awt.TrayIcon.MessageType;
+import java.io.IOException;
 
 public class NotificationService extends Thread {
 
@@ -31,13 +32,19 @@ public class NotificationService extends Thread {
                         System.out.println("System Tray not available");
                     }
 
-                    trayIcon.displayMessage("OH NO!!", "Period due", MessageType.INFO);
+                    trayIcon.displayMessage("Tsunami", "Your period is due", MessageType.INFO);
                 }
                 else if(OSChecker.isMac()){
 
                 }
                 else if(OSChecker.isUnix()){
-
+                    ProcessBuilder pb = new ProcessBuilder("notify send 'Tsunami' 'Your period is due'");
+                    pb.inheritIO();
+                    try{
+                        pb.start();
+                    } catch (IOException e){
+                        System.out.println("Desktop notification not possible");
+                    }
                 }
                 else{
                     System.out.println("Notifications not supported for this OS");
