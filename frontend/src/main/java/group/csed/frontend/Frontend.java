@@ -26,6 +26,7 @@ public class Frontend {
         ApiRequest.login(email, password, (status, id) -> {
             if(status == Status.OK) {
                 System.out.println("Successfully logged in");
+                new NotificationService().start();
             } else {
                 System.out.println("Incorrect email or password");
             }

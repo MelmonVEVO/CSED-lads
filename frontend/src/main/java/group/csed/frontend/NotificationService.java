@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class NotificationService extends Thread {
 
+    private boolean thisPeriodNotified = false;
+
     @Override
     public void run() {
         while (true) {
@@ -21,7 +23,7 @@ public class NotificationService extends Thread {
                     return;
                 }
             }
-            if (ApiRequest.periodDue()) {
+            if (ApiRequest.periodDue() && !thisPeriodNotified) {
                 if (OSChecker.isWindows()) {
                     SystemTray tray = SystemTray.getSystemTray();
                     Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
@@ -49,6 +51,7 @@ public class NotificationService extends Thread {
                 else{
                     System.out.println("Notifications not supported for this OS");
                 }
+                thisPeriodNotified = true;
             }
 
         }
