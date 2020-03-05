@@ -1,4 +1,4 @@
-package group.csed.frontend;
+package group.csed.frontend.notifications;
 
 public class OSChecker{
 

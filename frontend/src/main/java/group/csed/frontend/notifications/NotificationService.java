@@ -1,4 +1,4 @@
-package group.csed.frontend;
+package group.csed.frontend.notifications;
 
 import group.csed.frontend.http.ApiRequest;
 import java.awt.SystemTray;
