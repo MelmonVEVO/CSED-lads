@@ -30,17 +30,25 @@ public class Frontend {
                 System.out.println("Incorrect email or password");
             }
         });
-    }
-
-    private String getLoginInput(String message) {
-        String input;
-        while(true) {
-            System.out.println(message);
-            input = consoleReader.readLine();
-            if(input != null && !input.equals("")) {
-                return input;
+        /* 
+        // ACCOUNT CREATE EXAMPLE
+        ApiRequest.createAccount("test@test.com", "test3", "test3", "test", "2020-02-20", status -> {
+            if(status == Status.OK) {
+                System.out.println("Successfully created account");
+            } else {
+                System.out.println("Account with that email already exists");
             }
-        }
+        });
+        // MOOD TRACKING EXAMPLE
+        ApiRequest.trackMood(1, "test mood", status -> {
+            if(status == Status.OK) {
+                System.out.println("Added entry");
+            } else {
+                System.out.println("Mood already entered for today");
+            } 
+        });*/
+        
+
     }
 
     public static void main(String[] args) {
