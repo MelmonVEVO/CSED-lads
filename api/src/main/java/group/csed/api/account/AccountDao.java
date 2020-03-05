@@ -19,4 +19,7 @@ public interface AccountDao {
 
     @SqlQuery("SELECT password FROM account WHERE email=:email")
     String getPassword(@Bind("email") String email);
+
+    @SqlQuery("SELECT id FROM account WHERE email=:email")
+    int getId(@Bind("email") String email);
 }

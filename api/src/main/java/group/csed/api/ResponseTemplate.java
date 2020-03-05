@@ -26,6 +26,11 @@ public class ResponseTemplate {
         return this;
     }
 
+    public ResponseTemplate put(String key, int value) {
+        response.put(key, value);
+        return this;
+    }
+
     public String build() {
         return response.toString();
     }

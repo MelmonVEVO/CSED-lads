@@ -41,7 +41,7 @@ public class AccountResource {
         if(encryptedPassword != null) {
             // Encrypted password and provided password are the same
             if(BCrypt.checkpw(account.getPassword(), encryptedPassword)) {
-                return Response.ok(new ResponseTemplate(true).build()).build();
+                return Response.ok(new ResponseTemplate(true).put("id", dao.getId(account.getEmail())).build()).build();
             }
         }
         return Response.ok(new ResponseTemplate(false).build()).build();
