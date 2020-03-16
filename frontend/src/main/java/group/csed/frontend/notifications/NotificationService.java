@@ -36,9 +36,6 @@ public class NotificationService extends Thread {
 
                     trayIcon.displayMessage("Tsunami", "Your period is due", MessageType.INFO);
                 }
-                else if(OSChecker.isMac()){
-
-                }
                 else if(OSChecker.isUnix()){
                     ProcessBuilder pb = new ProcessBuilder("notify send 'Tsunami' 'Your period is due'");
                     pb.inheritIO();
