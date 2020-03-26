@@ -33,7 +33,6 @@ public class NotificationService extends Thread {
                     } catch (AWTException e) {
                         System.out.println("System Tray not available");
                     }
-
                     trayIcon.displayMessage("Tsunami", "Your period is due", MessageType.INFO);
                 }
                 else if(OSChecker.isUnix()){
