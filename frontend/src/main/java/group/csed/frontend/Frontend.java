@@ -4,6 +4,9 @@ import group.csed.frontend.console.ConsoleReader;
 import group.csed.frontend.http.ApiRequest;
 import group.csed.frontend.http.Status;
 import group.csed.frontend.http.models.PeriodData;
+import group.csed.frontend.predictions.PeriodPrediction;
+
+import java.util.Date;
 
 public class Frontend {
 
@@ -25,6 +28,7 @@ public class Frontend {
         if(loggedIn) {
             System.out.println("1. Update period data");
             System.out.println("2. View period data");
+            System.out.println("3. See when your next period will be");
         } else {
             System.out.println("1. Login");
             System.out.println("2. Create account");
@@ -46,8 +50,17 @@ public class Frontend {
             } else {
                 if(input.equals("2")) {
                     printPeriodData();
+                } else if(input.equals("3")) {
+                    printNextPeriodDate();
                 }
             }
+        }
+    }
+
+    private void printNextPeriodDate() {
+        if(periodData != null) {
+            final Date date = PeriodPrediction.getNextPeriodDate(periodData.getStarted(), periodData.getCycleLength());
+            System.out.println(date.toString());
         }
     }
 
