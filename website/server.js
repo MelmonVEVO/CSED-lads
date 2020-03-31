@@ -10,7 +10,6 @@ import cookieParser from 'cookie-parser';
 
 import App from './client/app.jsx';
 import routes from './client/routes';
-import { rejects } from 'assert';
 
 let app = express();
 
