@@ -1,15 +1,27 @@
+a {
+    color: #5694ca !important;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
 .navbar {
-    background-color: #212121;
+    background-color: #0b0c0c;
 }
 
 .navbar a {
     font-weight: bold;
-    color: white;
+    color: white !important;
 }
 
 .navbar a:hover {
     color: #FAFAFA;
     text-decoration: none;
+}
+
+.navbar .navbar-brand {
+    color: #2196F3 !important;
 }
 
 .container.margin-top {
@@ -29,4 +41,19 @@
     background-color: #E0E0E0;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+
+.form-control {
+    border-radius: 0 !important;
+    border-width: 1.8px !important;
+    border-color: #EEEEEE !important;
+}
+
+.form-control.error {
+    border-color: red !important;
+}
+
+.btn {
+    border-radius: 0 !important;
+    margin-bottom: 10px;
 }

@@ -1,10 +1,19 @@
 import 'isomorphic-fetch';
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 import { TextBox } from '../components/textBox.jsx';
 import { FormSubmitBtn } from '../components/formSubmitBtn.jsx';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+function validate(email, password) {
+    return {
+        email: !emailRegex.test(email),
+        password: password.length === 0
+    }
+}
 
 class Login extends React.Component {
     state = {
@@ -25,8 +34,15 @@ class Login extends React.Component {
     }
 
     login = e => {
+        const { email, password } = this.state;
+        const validateResults = validate(email, password);
+        if(!validateResults.email && !validateResults.password) {
+            this.setState({ errors: { email: false, password: false } });
+            // Send login request
+        } else {
+            this.setState({ errors: { email: validateResults.email, password: validateResults.password } });
+        }
         e.preventDefault();
-        this.setState({ password: "" });
     }
 
     render() {
@@ -37,10 +53,11 @@ class Login extends React.Component {
                 <div className="spacer"/>
                 <div className="container-sm">
                     <form onSubmit={this.login}>
-                        <TextBox type="text" text="Email" onChange={this.changeEmail} />
-                        <TextBox type="password" text="Password" onChange={this.changePassword} value={password} />
+                        <TextBox type="text" text="Email" onChange={this.changeEmail} error={this.state.errors.email} />
+                        <TextBox type="password" text="Password" onChange={this.changePassword} value={password} error={this.state.errors.password} />
                         <FormSubmitBtn colour="success" text="Login" />
                     </form>
+                    <Link to="/create-account"><b>Create an account</b></Link>
                 </div>
             </div>
         );
