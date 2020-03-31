@@ -10,6 +10,12 @@ dob DATE,
 created DATETIME,
 PRIMARY KEY(id));
 
+CREATE TABLE account_session(id VARCHAR(36) NOT NULL,
+account_id INT UNSIGNED NOT NULL,
+started_at DATETIME,
+PRIMARY KEY(id),
+FOREIGN KEY(account_id) REFERENCES account(id));
+
 CREATE TABLE mood(id INT UNSIGNED,
 description VARCHAR(20) NOT NULL,
 recorded_at DATE NOT NULL,

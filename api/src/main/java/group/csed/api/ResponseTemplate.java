@@ -26,7 +26,7 @@ public class ResponseTemplate {
         return this;
     }
 
-    public ResponseTemplate put(String key, int value) {
+    public ResponseTemplate put(String key, String value) {
         response.put(key, value);
         return this;
     }

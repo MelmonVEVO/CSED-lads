@@ -1,6 +1,8 @@
 package group.csed.api.account;
 
 import group.csed.api.ResponseTemplate;
+import group.csed.api.account.session.SessionDao;
+import group.csed.api.account.session.SessionHelper;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ws.rs.*;
@@ -12,9 +14,11 @@ import javax.ws.rs.core.Response;
 public class AccountResource {
 
     private final AccountDao dao;
+    private final SessionHelper sessionHelper;
 
-    public AccountResource(AccountDao dao) {
-        this.dao = dao;
+    public AccountResource(AccountDao accountDao, SessionDao sessionDao) {
+        this.dao = accountDao;
+        this.sessionHelper = new SessionHelper(sessionDao);
     }
 
     @POST
@@ -41,7 +45,11 @@ public class AccountResource {
         if(encryptedPassword != null) {
             // Encrypted password and provided password are the same
             if(BCrypt.checkpw(account.getPassword(), encryptedPassword)) {
-                return Response.ok(new ResponseTemplate(true).put("id", dao.getId(account.getEmail())).build()).build();
+                final int accountId = dao.getId(account.getEmail());
+                final String sessionID = sessionHelper.createSession(accountId);
+                if(sessionID != null) {
+                    return Response.ok(new ResponseTemplate(true).put("sessionID", sessionID).build()).build();
+                }
             }
         }
         return Response.ok(new ResponseTemplate(false).build()).build();

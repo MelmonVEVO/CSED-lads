@@ -21,7 +21,8 @@ class Login extends React.Component {
         password: "",
         errors: {
             email: false,
-            password: false
+            password: false,
+            login: false
         }
     }
 
@@ -38,9 +39,24 @@ class Login extends React.Component {
         const validateResults = validate(email, password);
         if(!validateResults.email && !validateResults.password) {
             this.setState({ errors: { email: false, password: false } });
-            // Send login request
+            fetch('http://localhost:3000/accounts/login', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }).then(res => res.json()).then(res => {
+                if(res.auth) {
+                    console.log("LOGGED IN");
+                } else {
+                    this.setState({ errors: { login: true } });
+                }
+            });
         } else {
-            this.setState({ errors: { email: validateResults.email, password: validateResults.password } });
+            this.setState({ errors: { login: false, email: validateResults.email, password: validateResults.password } });
         }
         e.preventDefault();
     }
