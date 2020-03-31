@@ -27,7 +27,7 @@ function checkRoute(route) {
     });
 }
 
-app.use('*', (req, res) => {
+app.get('*', (req, res) => {
     const route = routes.find(route => matchPath(req.url, route));
     checkRoute(route).then(() => {
         const pageContent = renderToString(

@@ -1,6 +1,8 @@
 import Index from './pages/index.jsx';
 import Login from './pages/login.jsx';
 
+import NotFound from './pages/notFound.jsx';
+
 const routes = [
     {
         path: "/",
@@ -12,6 +14,10 @@ const routes = [
         path: "/login",
         component: Login,
         loggedIn: false
+    },
+    {
+        path: "*",
+        component: NotFound
     }
 ]
 
