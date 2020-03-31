@@ -1,5 +1,9 @@
 import 'isomorphic-fetch';
+
 import React from 'react';
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 import { Link } from 'react-router-dom';
 
@@ -49,8 +53,8 @@ class Login extends React.Component {
                     password: password
                 })
             }).then(res => res.json()).then(res => {
-                if(res.auth) {
-                    console.log("LOGGED IN");
+                if(res.success) {
+                    cookies.set('session', res.sessionID);
                 } else {
                     this.setState({ errors: { login: true } });
                 }

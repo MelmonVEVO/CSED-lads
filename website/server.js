@@ -7,10 +7,10 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import session from 'client-sessions';
 
 import App from './client/app.jsx';
 import routes from './client/routes';
+import { rejects } from 'assert';
 
 let app = express();
 
@@ -21,15 +21,24 @@ app.use(cookieParser());
 
 app.use(express.static('public'));
 
-function checkRoute(route) {
-    return new Promise(resolve => {
-        resolve();
+function checkRoute(req, route) {
+    return new Promise((resolve, reject) => {
+        if(route.loggedIn) {
+            const { session } = req.cookies;
+            if(session !== undefined) {
+                resolve();
+            } else {
+                reject();
+            }
+        } else {
+            resolve();
+        }
     });
 }
 
 app.get('*', (req, res) => {
     const route = routes.find(route => matchPath(req.url, route));
-    checkRoute(route).then(() => {
+    checkRoute(req, route).then(() => {
         const pageContent = renderToString(
             <StaticRouter location={req.url}>
                 <App />
