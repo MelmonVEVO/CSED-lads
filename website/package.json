@@ -4,8 +4,33 @@
   "description": "Web frontend",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "webpack:client": "webpack --config webpack.client.js --mode development",
+    "webpack:server": "webpack --config webpack.server.js --mode development",
+    "start": "npm run webpack:client && npm run webpack:server && node ./private/bundle.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.19.0",
+    "client-sessions": "^0.8.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
+  }
 }
