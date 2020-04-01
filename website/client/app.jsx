@@ -1,16 +1,28 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
+import { ProtectedRoute } from './protectedRoute.jsx';
 
 import routes from './routes';
 
-import Navbar from './components/navbar.jsx';
+import auth from './auth.jsx';
 
-const App = () => {
+function getRoutes(loggedIn) {
+    let checkedRoutes = [];
+    routes.map(route => {
+        if(route.loggedIn == loggedIn) {
+            checkedRoutes.push(route);
+        }
+    });
+    return checkedRoutes;
+}
+
+const App = (isAuthenticated) => {
+    auth.setAuth(isAuthenticated);
     return (
         <React.Fragment>
-            <Navbar />
             <Switch>
-                {routes.map((route, i) => <Route key={i} {...route} />)}
+                {getRoutes(false).map((route, i) => <Route key={i} {...route} />)}
+                {getRoutes(true).map((route, i) => <ProtectedRoute key={i} {...route} />)}
             </Switch>
         </React.Fragment>
     );

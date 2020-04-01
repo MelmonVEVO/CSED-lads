@@ -20,27 +20,37 @@ app.use(cookieParser());
 
 app.use(express.static('public'));
 
-function checkRoute(req, route) {
-    return new Promise((resolve, reject) => {
+app.get('/logout', (req, res) => {
+    res.clearCookie('session');
+    res.redirect('/login');
+})
+
+function checkRoute(req, res, route) {
+    return new Promise((resolve) => {
+        const { session } = req.cookies;
         if(route.loggedIn) {
             const { session } = req.cookies;
             if(session !== undefined) {
-                resolve();
+                resolve(true);
             } else {
-                reject();
+                res.redirect('/login');
             }
         } else {
-            resolve();
+            if(session === undefined) {
+                resolve(false);
+            } else {
+                res.redirect('/');
+            }
         }
     });
 }
 
 app.get('*', (req, res) => {
     const route = routes.find(route => matchPath(req.url, route));
-    checkRoute(req, route).then(() => {
+    checkRoute(req, res, route).then(auth => {
         const pageContent = renderToString(
             <StaticRouter location={req.url}>
-                <App />
+                <App auth={auth} />
             </StaticRouter>
         );
         readFile(pathResolve('./src/views/index.html'), 'utf8', (err, index) => {

@@ -6,9 +6,7 @@ export const NavItem = (props) => {
     const { linkUrl, text } = props;
     return (
         <div className="nav-item">
-            <Link to={linkUrl}>
-                {text}
-            </Link>
+            <Link to={linkUrl}>{text}</Link>
         </div>
     );
 };

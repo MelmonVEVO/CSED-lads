@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { NavItem } from './navItem.jsx';
 
-class Navbar extends React.Component {
+class Navbar extends React.Component {    
     render() {
         return (
             <nav className="navbar navbar-expand-md navbar-dark">
@@ -15,7 +15,10 @@ class Navbar extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-                        <NavItem linkUrl="/login" text="Login" />
+                        <NavItem linkUrl="/notes" text="Notes" />
+                        <div className="nav-item">
+                            <a href="/logout">Logout</a>
+                        </div>
                     </div>
                 </div>
             </nav>

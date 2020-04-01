@@ -20,6 +20,10 @@ a:hover {
     text-decoration: none;
 }
 
+.nav-item {
+    margin-right: 15px;
+}
+
 .navbar .navbar-brand {
     color: #2196F3 !important;
 }

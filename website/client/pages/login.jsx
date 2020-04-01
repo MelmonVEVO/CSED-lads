@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 import { TextBox } from '../components/textBox.jsx';
 import { FormSubmitBtn } from '../components/formSubmitBtn.jsx';
 
+import auth from '../auth.jsx';
+
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 function validate(email, password) {
@@ -26,7 +28,8 @@ class Login extends React.Component {
         errors: {
             email: false,
             password: false,
-            login: false
+            login: false,
+            unknown: false
         }
     }
 
@@ -55,14 +58,29 @@ class Login extends React.Component {
             }).then(res => res.json()).then(res => {
                 if(res.success) {
                     cookies.set('session', res.sessionID);
+                    auth.setAuth(true);
+                    this.props.history.push('/');
                 } else {
-                    this.setState({ errors: { login: true } });
+                    this.setState({ errors: { login: true }, password: "" });
                 }
+            }).catch(() => {
+                this.setState({ errors: { unknown: true }, password: "" });
             });
         } else {
-            this.setState({ errors: { login: false, email: validateResults.email, password: validateResults.password } });
+            this.setState({ errors: { login: false, unknown: false, email: validateResults.email, password: validateResults.password } });
         }
         e.preventDefault();
+    }
+
+    renderLoginError() {
+        const { login, unknown } = this.state.errors;
+        if(login) {
+            return <div className="alert alert-danger">Incorrect username or password</div>;
+        }
+        if(unknown) {
+            return <div className="alert alert-danger">An unknown error has occured</div>;
+        }
+        return <div />
     }
 
     render() {
@@ -72,6 +90,7 @@ class Login extends React.Component {
                 <h1>Login</h1>
                 <div className="spacer"/>
                 <div className="container-sm">
+                    {this.renderLoginError()}
                     <form onSubmit={this.login}>
                         <TextBox type="text" text="Email" onChange={this.changeEmail} error={this.state.errors.email} />
                         <TextBox type="password" text="Password" onChange={this.changePassword} value={password} error={this.state.errors.password} />
