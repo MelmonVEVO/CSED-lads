@@ -27,19 +27,22 @@ app.get('/logout', (req, res) => {
 
 function checkRoute(req, res, route) {
     return new Promise((resolve) => {
-        const { session } = req.cookies;
-        if(route.loggedIn) {
-            const { session } = req.cookies;
-            if(session !== undefined) {
-                resolve(true);
-            } else {
-                res.redirect('/login');
-            }
+        if (route === undefined) {
+            resolve(404, false);
         } else {
-            if(session === undefined) {
-                resolve(false);
+            const { session } = req.cookies;
+            if (route.loggedIn) {
+                if (session !== undefined) {
+                    resolve(200, true);
+                } else {
+                    res.redirect('/login');
+                }
             } else {
-                res.redirect('/');
+                if (session === undefined) {
+                    resolve(200, false);
+                } else {
+                    res.redirect('/');
+                }
             }
         }
     });
@@ -47,17 +50,17 @@ function checkRoute(req, res, route) {
 
 app.get('*', (req, res) => {
     const route = routes.find(route => matchPath(req.url, route));
-    checkRoute(req, res, route).then(auth => {
+    checkRoute(req, res, route).then((status, auth) => {
         const pageContent = renderToString(
             <StaticRouter location={req.url}>
                 <App auth={auth} />
             </StaticRouter>
         );
         readFile(pathResolve('./src/views/index.html'), 'utf8', (err, index) => {
-            if(err) {
+            if (err) {
                 console.log(err);
             } else {
-                res.send(index.replace('<div id="root"></div>', '<div id="root">' + pageContent + '</div>'));
+                res.status(status).send(index.replace('<div id="root"></div>', '<div id="root">' + pageContent + '</div>'));
             }
         });
     });

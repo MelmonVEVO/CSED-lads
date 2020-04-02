@@ -20,10 +20,6 @@ const routes = [
         path: "/create-account",
         component: CreateAccount,
         loggedIn: false
-    },
-    {
-        path: "*",
-        component: NotFound
     }
 ]
 

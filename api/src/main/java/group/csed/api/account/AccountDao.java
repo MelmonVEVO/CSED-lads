@@ -8,8 +8,8 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 @RegisterMapper(AccountMapper.class)
 public interface AccountDao {
 
-    @SqlUpdate("INSERT INTO account VALUES (default, :email,:firstName, :lastName, :password, :dob, now())")
-    void create(@Bind("email") String email,@Bind("firstName") String firstName, @Bind("lastName") String lastName, @Bind("password") String password, @Bind("dob") String dob);
+    @SqlUpdate("INSERT INTO account VALUES (default, :email,:firstName, :lastName, :password, now())")
+    void create(@Bind("email") String email,@Bind("firstName") String firstName, @Bind("lastName") String lastName, @Bind("password") String password);
 
     @SqlQuery("SELECT EXISTS(SELECT email FROM account WHERE email=:email)")
     boolean accountExists(@Bind("email") String email);

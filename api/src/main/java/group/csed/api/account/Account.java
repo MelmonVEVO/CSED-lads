@@ -7,14 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Account {
 
     @JsonProperty private int id;
-    @JsonProperty private String email, firstName, lastName, password, dob, created;
+    @JsonProperty private String email, firstName, lastName, password, created;
 
-    public Account(int id, String email, String firstName, String lastName, String dob, String created) {
+    public Account(int id, String email, String firstName, String lastName, String created) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dob = dob;
         this.created = created;
     }
 
@@ -38,10 +37,6 @@ public class Account {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getDob() {
-        return dob;
     }
 
     public String getCreated() {

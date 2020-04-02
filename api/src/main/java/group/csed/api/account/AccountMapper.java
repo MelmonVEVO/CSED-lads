@@ -14,7 +14,6 @@ public class AccountMapper implements ResultSetMapper<Account> {
                 set.getString("email"),
                 set.getString("first_name"),
                 set.getString("last_name"),
-                set.getString("dob"),
                 set.getString("created"));
     }
 }

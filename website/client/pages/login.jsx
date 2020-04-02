@@ -12,12 +12,12 @@ import { FormSubmitBtn } from '../components/formSubmitBtn.jsx';
 
 import auth from '../auth.jsx';
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import emailValidator from '../utils/emailValidator.jsx';
 
 function validate(email, password) {
     return {
-        email: !emailRegex.test(email),
-        password: password.length === 0
+        email: emailValidator(email),
+        password: password.length !== 0
     }
 }
 
@@ -44,7 +44,7 @@ class Login extends React.Component {
     login = e => {
         const { email, password } = this.state;
         const validateResults = validate(email, password);
-        if(!validateResults.email && !validateResults.password) {
+        if(validateResults.email && validateResults.password) {
             this.setState({ errors: { email: false, password: false } });
             fetch('http://localhost:3000/accounts/login', {
                 method: "POST",
@@ -67,7 +67,7 @@ class Login extends React.Component {
                 this.setState({ errors: { unknown: true }, password: "" });
             });
         } else {
-            this.setState({ errors: { login: false, unknown: false, email: validateResults.email, password: validateResults.password } });
+            this.setState({ errors: { login: false, unknown: false, email: !validateResults.email, password: !validateResults.password } });
         }
         e.preventDefault();
     }

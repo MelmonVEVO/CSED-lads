@@ -28,7 +28,7 @@ public class AccountResource {
             return Response.ok(new ResponseTemplate(false).build()).build();
         }
         final String encryptedPassword = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt());
-        dao.create(account.getEmail(), account.getFirstName(), account.getLastName(), encryptedPassword, account.getDob());
+        dao.create(account.getEmail(), account.getFirstName(), account.getLastName(), encryptedPassword);
         return Response.ok(new ResponseTemplate(true).build()).build();
     }
 
