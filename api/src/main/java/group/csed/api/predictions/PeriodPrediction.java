@@ -1,10 +1,13 @@
-package group.csed.frontend.predictions;
+package group.csed.api.predictions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class PeriodPrediction {
 
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
     private static final int[] monthLens = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
     private static Date addDays(Date previousDate, int daysToAdd) {
@@ -20,8 +23,8 @@ public class PeriodPrediction {
         return cal.getTime();
     }
 
-    public static Date getNextPeriodDate(Date previousPeriod, int cycleLen) {
-        return addDays(previousPeriod, cycleLen);
+    public static String getNextPeriodDate(Date previousPeriod, int cycleLen) {
+        return dateFormat.format(addDays(previousPeriod, cycleLen));
     }
 
     public static double getLengthOfCycle(Date startDate, Date endDate) {

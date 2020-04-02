@@ -9,6 +9,6 @@ import java.sql.SQLException;
 public class TrackerMapper implements ResultSetMapper<PeriodData> {
     @Override
     public PeriodData map(int i, ResultSet set, StatementContext context) throws SQLException {
-        return new PeriodData(set.getString("started"), set.getInt("lasted"), set.getInt("cycle_length"));
+        return new PeriodData(set.getDate("started"), set.getInt("lasted"), set.getInt("cycle_length"));
     }
 }

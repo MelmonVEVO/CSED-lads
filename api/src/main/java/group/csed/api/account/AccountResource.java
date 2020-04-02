@@ -16,9 +16,9 @@ public class AccountResource {
     private final AccountDao dao;
     private final SessionHelper sessionHelper;
 
-    public AccountResource(AccountDao accountDao, SessionDao sessionDao) {
+    public AccountResource(AccountDao accountDao, SessionHelper sessionHelper) {
         this.dao = accountDao;
-        this.sessionHelper = new SessionHelper(sessionDao);
+        this.sessionHelper = sessionHelper;
     }
 
     @POST

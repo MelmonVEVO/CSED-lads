@@ -3,6 +3,7 @@ package group.csed.api;
 import group.csed.api.account.AccountDao;
 import group.csed.api.account.AccountResource;
 import group.csed.api.account.session.SessionDao;
+import group.csed.api.account.session.SessionHelper;
 import group.csed.api.mood.MoodDao;
 import group.csed.api.mood.MoodResource;
 import group.csed.api.tracker.TrackerDao;
@@ -35,6 +36,7 @@ public class Api extends Application<ApiConfig> {
         final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         cors.setInitParameter("allowedOrigins", "*");
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,DELETE,HEAD");
         cors.setInitParameter(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, Boolean.FALSE.toString());
 
         registerResources(environment, dbi);
@@ -50,9 +52,10 @@ public class Api extends Application<ApiConfig> {
         final SessionDao sessionDao = dbi.onDemand(SessionDao.class);
         final MoodDao moodDao = dbi.onDemand(MoodDao.class);
         final TrackerDao trackerDao = dbi.onDemand(TrackerDao.class);
+        final SessionHelper sessionHelper = new SessionHelper(sessionDao);
 
-        environment.jersey().register(new AccountResource(accountDao, sessionDao));
+        environment.jersey().register(new AccountResource(accountDao, sessionHelper));
         environment.jersey().register(new MoodResource(moodDao));
-        environment.jersey().register(new TrackerResource(trackerDao));
+        environment.jersey().register(new TrackerResource(trackerDao, sessionHelper));
     }
 }

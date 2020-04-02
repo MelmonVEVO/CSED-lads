@@ -31,13 +31,15 @@ class CreateAccount extends React.Component {
             password: false,
             exists: false,
             unknown: false
-        }
+        },
+        loading: false
     }
 
     createAccount = e => {
         const { email, firstName, lastName, password } = this.state;
         const validateResults = validate(email, firstName, lastName, password);
         if(validateResults.email && validateResults.firstName && validateResults.lastName && validateResults.password) {
+            this.setState({ loading: true });
             fetch('http://localhost:3000/accounts/create', {
                 method: "POST",
                 headers: {
@@ -55,6 +57,7 @@ class CreateAccount extends React.Component {
                 } else {
                     this.setState({ password: "", email: "", firstName: "", lastName: "", errors: { exists: true } });
                 }
+                this.setState({ loading: false });
             }).catch(() => {
                 this.setState({ password: "", errors: { unknown: true } });
             });
@@ -101,6 +104,7 @@ class CreateAccount extends React.Component {
     }
 
     render() {
+        const { loading } = this.state;
         return (
             <div className="container text-center margin-top">
                 <h1>Create Account</h1>
@@ -116,7 +120,7 @@ class CreateAccount extends React.Component {
                             error={this.state.errors.lastName} value={this.state.lastName} />
                         <TextBox type="password" text="password" onChange={this.changePassword} 
                             error={this.state.errors.password} value={this.state.password} />
-                        <FormSubmitBtn colour="success" text="Create account" />
+                        <FormSubmitBtn colour="success" text="Create account" disabled={loading} />
                     </form>
                     <Link to="/login"><b>Already have an account?</b></Link>
                 </div>

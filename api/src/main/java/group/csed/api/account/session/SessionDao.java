@@ -9,6 +9,6 @@ public interface SessionDao {
     @SqlUpdate("INSERT INTO account_session VALUES(:id, :account_id, now())")
     void insert(@Bind("id") String id, @Bind("account_id") int accountID);
 
-    @SqlQuery("SELECT account_id FROM account_sessions WHERE id=:id")
+    @SqlQuery("SELECT account_id FROM account_session WHERE id=:id")
     int getAccountID(@Bind("id") String id);
 }

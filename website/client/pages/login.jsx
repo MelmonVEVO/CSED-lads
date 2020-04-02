@@ -30,7 +30,8 @@ class Login extends React.Component {
             password: false,
             login: false,
             unknown: false
-        }
+        },
+        loading: false
     }
 
     changeEmail = e => {
@@ -45,7 +46,7 @@ class Login extends React.Component {
         const { email, password } = this.state;
         const validateResults = validate(email, password);
         if(validateResults.email && validateResults.password) {
-            this.setState({ errors: { email: false, password: false } });
+            this.setState({ errors: { email: false, password: false }, loading: true });
             fetch('http://localhost:3000/accounts/login', {
                 method: "POST",
                 headers: {
@@ -57,11 +58,11 @@ class Login extends React.Component {
                 })
             }).then(res => res.json()).then(res => {
                 if(res.success) {
-                    cookies.set('session', res.sessionID);
+                    cookies.set('session', res.sessionID, { domain: ".csed.test" });
                     auth.setAuth(true);
                     this.props.history.push('/');
                 } else {
-                    this.setState({ errors: { login: true }, password: "" });
+                    this.setState({ errors: { login: true }, password: "", loading: false });
                 }
             }).catch(() => {
                 this.setState({ errors: { unknown: true }, password: "" });
@@ -84,7 +85,7 @@ class Login extends React.Component {
     }
 
     render() {
-        const { password } = this.state;
+        const { password, loading } = this.state;
         return (
             <div className="container text-center margin-top">
                 <h1>Login</h1>
@@ -94,7 +95,7 @@ class Login extends React.Component {
                     <form onSubmit={this.login}>
                         <TextBox type="text" text="Email" onChange={this.changeEmail} error={this.state.errors.email} />
                         <TextBox type="password" text="Password" onChange={this.changePassword} value={password} error={this.state.errors.password} />
-                        <FormSubmitBtn colour="success" text="Login" />
+                        <FormSubmitBtn colour="success" text="Login" disabled={loading} />
                     </form>
                     <Link to="/create-account"><b>Create an account</b></Link>
                 </div>
