@@ -11,15 +11,32 @@ const cookies = new Cookies();
 
 import React from 'react';
 
+function renderDays(days) {
+    if(days > 1) {
+        return <span>{days} days away</span>
+    }
+    return <span>Tommorow</span>
+}
+
+function renderButton(text, type) {
+    return <Link className={"btn btn-" + type + " btn-lg"} to="/update-data" style={{ marginBottom: 0 }}>{text}</Link>
+}
+
 const countdownRenderer = ({ days, completed }) => {
     if(completed) {
-        return <p>Change the date</p>
+        return (
+            <React.Fragment>
+                <p className="my-4">Data is out of sync</p>
+                <hr className="my-4" />
+                {renderButton('Update data', 'danger')}
+            </React.Fragment>
+        );
     }
     return (
         <React.Fragment>
-            <span>{days} days away</span>
+            {renderDays(days)}
             <hr className="my-4"/>
-            <Link className="btn btn-primary btn-lg" to="/update-data" style={{ marginBottom: 0 }}>Change data</Link>
+            {renderButton('Change data', 'primary')}
         </React.Fragment>
     );
 }
@@ -56,7 +73,7 @@ class Index extends React.Component {
             return (
                 <div className="container" style={{ marginTop: 25 }}>
                     <div className="jumbotron">
-                        <p className="lead">Your next period is due on:</p>
+                        <p className="lead">Your next period is on:</p>
                         <h1 className="display-4">
                             <Moment format="D MMM">{nextPerioDate}</Moment>
                         </h1>
