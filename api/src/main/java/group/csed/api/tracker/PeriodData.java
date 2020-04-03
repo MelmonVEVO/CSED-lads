@@ -34,4 +34,16 @@ public class PeriodData {
     public int getCycleLength() {
         return cycleLength;
     }
+
+    public void setStarted(Date started) {
+        this.started = started;
+    }
+
+    public void setLasted(int lasted) {
+        this.lasted = lasted;
+    }
+
+    public void setCycleLength(int cycleLength) {
+        this.cycleLength = cycleLength;
+    }
 }

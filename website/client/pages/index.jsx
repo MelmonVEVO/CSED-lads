@@ -18,27 +18,11 @@ function renderDays(days) {
     return <span>Tommorow</span>
 }
 
-function renderButton(text, type) {
-    return <Link className={"btn btn-" + type + " btn-lg"} to="/update-data" style={{ marginBottom: 0 }}>{text}</Link>
-}
-
 const countdownRenderer = ({ days, completed }) => {
     if(completed) {
-        return (
-            <React.Fragment>
-                <p className="my-4">Data is out of sync</p>
-                <hr className="my-4" />
-                {renderButton('Update data', 'danger')}
-            </React.Fragment>
-        );
+        return <span>Today</span>
     }
-    return (
-        <React.Fragment>
-            {renderDays(days)}
-            <hr className="my-4"/>
-            {renderButton('Change data', 'primary')}
-        </React.Fragment>
-    );
+    return renderDays(days);
 }
 
 class Index extends React.Component {
@@ -51,6 +35,7 @@ class Index extends React.Component {
             nextPerioDate = window.initialData.next;
         }
         this.state = {
+            loading: false,
             nextPerioDate: nextPerioDate
         }
     }
@@ -61,14 +46,18 @@ class Index extends React.Component {
 
     componentDidMount() {
         if (this.state.nextPerioDate === undefined) {
+            this.setState({ loading: true });
             fetch('http://api.csed.test/period-tracker/prediction/' + cookies.get('session')).then(res => res.json()).then(res => {
-                this.setState({ nextPerioDate: res.next });
+                this.setState({ loading: false, nextPerioDate: res.next });
             });
         }
     }
 
     render() {
-        const { nextPerioDate } = this.state;
+        const { loading, nextPerioDate } = this.state;
+        if(loading) {
+            return <div/>
+        }
         if(nextPerioDate !== undefined) {
             return (
                 <div className="container" style={{ marginTop: 25 }}>
@@ -78,6 +67,8 @@ class Index extends React.Component {
                             <Moment format="ddd D MMM">{nextPerioDate}</Moment>
                         </h1>
                         <p><Countdown date={nextPerioDate} renderer={countdownRenderer}></Countdown></p>
+                        <hr className="my-4"/>
+                        <Link className="btn btn-primary btn-lg" to="/update-data" style={{ marginBottom: 0}}>Change data</Link>
                     </div>
                 </div>
             );

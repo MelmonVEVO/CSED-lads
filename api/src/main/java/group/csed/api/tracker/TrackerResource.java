@@ -53,8 +53,16 @@ public class TrackerResource {
     }
 
     @GET
-    @Path("/{id}")
-    public Response getData(@PathParam("id") int id) {
-        return Response.ok(dao.getData(id)).build();
+    @Path("/{sessionID}")
+    public Response getData(@PathParam("sessionID") String sessionID) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            final PeriodData data = dao.getData(accountID);
+            if(data != null) {
+                return Response.ok(new ResponseTemplate(true).put("data", data).build()).build();
+            }
+            return Response.ok(new ResponseTemplate(true).build()).build();
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
     }
 }

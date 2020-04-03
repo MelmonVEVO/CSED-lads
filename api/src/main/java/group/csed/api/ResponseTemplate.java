@@ -18,10 +18,12 @@ public class ResponseTemplate {
     }
 
     public ResponseTemplate put(String key, Object value) {
-        try {
-            response.put(key, new JSONObject(objectWriter.writeValueAsString(value)));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if(value != null) {
+            try {
+                response.put(key, new JSONObject(objectWriter.writeValueAsString(value)));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
         return this;
     }
