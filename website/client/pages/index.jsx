@@ -75,7 +75,7 @@ class Index extends React.Component {
                     <div className="jumbotron">
                         <p className="lead">Your next period is on:</p>
                         <h1 className="display-4">
-                            <Moment format="D MMM">{nextPerioDate}</Moment>
+                            <Moment format="ddd D MMM">{nextPerioDate}</Moment>
                         </h1>
                         <p><Countdown date={nextPerioDate} renderer={countdownRenderer}></Countdown></p>
                     </div>
