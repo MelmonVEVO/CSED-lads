@@ -120,7 +120,7 @@ class CreateAccount extends React.Component {
                             error={this.state.errors.lastName} value={this.state.lastName} />
                         <TextBox type="password" text="password" onChange={this.changePassword} 
                             error={this.state.errors.password} value={this.state.password} />
-                        <FormSubmitBtn colour="success" text="Create account" disabled={loading} />
+                        <FormSubmitBtn colour="success" text="Create account" disabled={loading} block={true} />
                     </form>
                     <Link to="/login"><b>Already have an account?</b></Link>
                 </div>

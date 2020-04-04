@@ -95,7 +95,7 @@ class Login extends React.Component {
                     <form onSubmit={this.login}>
                         <TextBox type="text" text="Email" onChange={this.changeEmail} error={this.state.errors.email} />
                         <TextBox type="password" text="Password" onChange={this.changePassword} value={password} error={this.state.errors.password} />
-                        <FormSubmitBtn colour="success" text="Login" disabled={loading} />
+                        <FormSubmitBtn colour="success" text="Login" disabled={loading} block={true} />
                     </form>
                     <Link to="/create-account"><b>Create an account</b></Link>
                 </div>

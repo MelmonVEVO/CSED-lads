@@ -2,6 +2,7 @@ import 'isomorphic-fetch';
 
 import React from 'react';
 import { Form } from 'react-bootstrap';
+import { FormSubmitBtn } from '../components/formSubmitBtn.jsx';
 
 import { Link } from 'react-router-dom';
 
@@ -73,6 +74,15 @@ class UpdateData extends React.Component {
         console.log(e.target.value);
     }
 
+    formSubmitBtn() {
+        const { currentData } = this.state;
+        let text = "Update";
+        if(currentData === undefined) {
+            text = "Insert";
+        }
+        return <FormSubmitBtn colour="success" text={text} block={false} />
+    }
+
     renderForm() {
         const { currentData } = this.state;
         return (
@@ -80,7 +90,11 @@ class UpdateData extends React.Component {
                 <Form.Label>Start date</Form.Label>
                 <Form.Control type="date" defaultValue={defaultDateValue(currentData)} />
                 <Form.Label style={{ marginTop: 10 }}>Cycle length</Form.Label>
-                <Form.Control type="number" min={1} max={31} defaultValue={defaultCycleLenValue(currentData)} />
+                <Form.Control type="number" min={1} max={31} defaultValue={defaultCycleLenValue(currentData)} style={{marginBottom: 15}} />
+                <div className="d-inline">
+                    {this.formSubmitBtn()}
+                    <Link className="btn btn-dark btn-lg" to="/" style={{ marginLeft: 10 }}>Cancel</Link>
+                </div>
             </Form>
         );
     }
@@ -94,8 +108,7 @@ class UpdateData extends React.Component {
             <div className="container" style={{ marginTop: 25 }}>
                 {this.renderHeader()}
                 <hr></hr>
-                {this.renderForm()}
-                <Link className="btn btn-dark btn-lg" to="/" style={{ marginTop: 10 }}>Cancel</Link>
+                {this.renderForm()}                
             </div>
         );
     }
