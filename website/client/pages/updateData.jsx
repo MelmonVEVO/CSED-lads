@@ -36,7 +36,13 @@ class UpdateData extends React.Component {
         }
         this.state = {
             loading: false,
-            currentData: currentData
+            currentData: currentData,
+            newStartDate: defaultDateValue(currentData),
+            newCycleLen: defaultCycleLenValue(currentData),
+            errors: {
+                startDate: false,
+                cycleLen: false
+            }
         }
     }
 
@@ -49,7 +55,8 @@ class UpdateData extends React.Component {
             this.setState({ loading: true });
             fetch('http://api.csed.test/period-tracker/' + cookies.get('session'))
                 .then(res => res.json()).then(res => {
-                    this.setState({ loading: false, currentData: res.data });
+                    const { data } = res;
+                    this.setState({ loading: false, currentData: res.data, newStartDate: defaultDateValue(data), newCycleLen: defaultCycleLenValue(data) });
                 });
         }
     }
@@ -70,10 +77,6 @@ class UpdateData extends React.Component {
         return <h1>Update data</h1>
     }
 
-    handleDateChange = e => {
-        console.log(e.target.value);
-    }
-
     formSubmitBtn() {
         const { currentData } = this.state;
         let text = "Update";
@@ -83,17 +86,73 @@ class UpdateData extends React.Component {
         return <FormSubmitBtn colour="success" text={text} block={false} />
     }
 
-    renderForm() {
+    getRequestUrl() {
         const { currentData } = this.state;
+        let url = "http://api.csed.test/period-tracker/";
+        if(currentData === undefined) {
+            url += "insert";
+        } else {
+            url += "update";
+        }
+        return url;
+    }
+
+    formSubmit = e => {
+        const { newStartDate, newCycleLen } = this.state;
+        const validStartDate = newStartDate !== "";
+        const validCycleLen = newCycleLen > 0;
+        if(validStartDate && validCycleLen) {
+            this.setState({ errors: { startDate: false, cycleLen: false } });
+            fetch(this.getRequestUrl(), {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    "started": newStartDate,
+                    "cycleLength": newCycleLen
+                })
+            }).then(res => res.json()).then(res => {
+                if(res.success) {
+                    window.location.href = '/';
+                }
+            });
+        } else {
+            this.setState({ errors: { startDate: !validStartDate, cycleLen: !validCycleLen } });
+        }
+        e.preventDefault();
+    }
+
+    startDateChange = e => {
+        this.setState({ newStartDate: e.target.value });
+    }
+
+    cycleLenChange = e => {
+        this.setState({ newCycleLen: e.target.value });
+    }
+
+    formClassName(error) {
+        if(error) {
+            return "error";
+        }
+        return "";
+    }
+
+    renderForm() {
+        const { newStartDate, newCycleLen } = this.state;
         return (
-            <Form>
+            <Form onSubmit={this.formSubmit}>
                 <Form.Label>Start date</Form.Label>
-                <Form.Control type="date" defaultValue={defaultDateValue(currentData)} />
+                <Form.Control type="date" defaultValue={newStartDate} 
+                    onChange={this.startDateChange} className={this.formClassName(this.state.errors.startDate)} />
                 <Form.Label style={{ marginTop: 10 }}>Cycle length</Form.Label>
-                <Form.Control type="number" min={1} max={31} defaultValue={defaultCycleLenValue(currentData)} style={{marginBottom: 15}} />
+                <Form.Control type="number" min={1} max={31} 
+                    defaultValue={newCycleLen} style={{marginBottom: 15}}
+                    onChange={this.cycleLenChange} className={this.formClassName(this.state.errors.cycleLen)} />
                 <div className="d-inline">
                     {this.formSubmitBtn()}
-                    <Link className="btn btn-dark btn-lg" to="/" style={{ marginLeft: 10 }}>Cancel</Link>
+                    <Link className="btn btn-dark" to="/" style={{ marginLeft: 5 }}>Cancel</Link>
                 </div>
             </Form>
         );

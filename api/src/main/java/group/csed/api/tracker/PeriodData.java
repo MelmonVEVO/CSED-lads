@@ -9,26 +9,17 @@ import java.util.Date;
 public class PeriodData {
 
     @JsonProperty private Date started;
-    @JsonProperty private int id, lasted, cycleLength;
+    @JsonProperty private int cycleLength;
 
-    public PeriodData(Date started, int lasted, int cycleLength) {
+    public PeriodData(Date started, int cycleLength) {
         this.started = started;
-        this.lasted = lasted;
         this.cycleLength = cycleLength;
     }
 
     public PeriodData() {}
 
-    public int getId() {
-        return id;
-    }
-
     public Date getStarted() {
         return started;
-    }
-
-    public int getLasted() {
-        return lasted;
     }
 
     public int getCycleLength() {
@@ -37,10 +28,6 @@ public class PeriodData {
 
     public void setStarted(Date started) {
         this.started = started;
-    }
-
-    public void setLasted(int lasted) {
-        this.lasted = lasted;
     }
 
     public void setCycleLength(int cycleLength) {

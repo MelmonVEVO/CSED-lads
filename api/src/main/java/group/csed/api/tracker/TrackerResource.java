@@ -21,13 +21,16 @@ public class TrackerResource {
     }
 
     @POST
-    @Path("/create")
-    public Response insertData(PeriodData data) {
-        if(dao.entryExists(data.getId())) {
-            return Response.ok(new ResponseTemplate(false).build()).build();
+    @Path("/insert")
+    public Response insertData(@CookieParam("session") String sessionID, PeriodData data) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            if(!dao.entryExists(accountID)) {
+                dao.insert(accountID, data.getStarted(), data.getCycleLength());
+                return Response.ok(new ResponseTemplate(true).build()).build();
+            }
         }
-        dao.insert(data.getId(), data.getStarted(), data.getLasted(), data.getCycleLength());
-        return Response.ok(new ResponseTemplate(true).build()).build();
+        return Response.ok(new ResponseTemplate(false).build()).build();
     }
 
     @GET
@@ -47,9 +50,13 @@ public class TrackerResource {
 
     @POST
     @Path("/update")
-    public Response updateData(PeriodData data) {
-        dao.update(data.getId(), data.getStarted(), data.getLasted(), data.getCycleLength());
-        return Response.ok(new ResponseTemplate(true).build()).build();
+    public Response updateData(@CookieParam("session") String sessionID, PeriodData data) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            dao.update(accountID, data.getStarted(), data.getCycleLength());
+            return Response.ok(new ResponseTemplate(true).build()).build();
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
     }
 
     @GET
