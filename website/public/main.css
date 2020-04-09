@@ -61,3 +61,23 @@ a:hover {
     border-radius: 0 !important;
     margin-bottom: 10px;
 }
+
+.btn:focus, .btn:active, .btn.active, .btn:focus:active {
+    background-image: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.btn.white-text {
+    color: white;
+}
+
+.btn.white-text:hover {
+    color: white;
+}
+
+.jumbotron.green {
+    color: white;
+    background-color: #00E676;
+}

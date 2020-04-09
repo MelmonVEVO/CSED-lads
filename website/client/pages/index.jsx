@@ -1,10 +1,10 @@
-
 import 'isomorphic-fetch';
 
 import { Link } from 'react-router-dom';
 
 import Moment from 'react-moment';
 import Countdown from 'react-countdown-now';
+import MoodTracker from '../components/moodTracker.jsx';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -12,14 +12,14 @@ const cookies = new Cookies();
 import React from 'react';
 
 function renderDays(days) {
-    if(days > 1) {
+    if (days > 1) {
         return <span>{days} days away</span>
     }
     return <span>Tommorow</span>
 }
 
 const countdownRenderer = ({ days, completed }) => {
-    if(completed) {
+    if (completed) {
         return <span>Today</span>
     }
     return renderDays(days);
@@ -53,37 +53,43 @@ class Index extends React.Component {
         }
     }
 
-    render() {
-        const { loading, nextPerioDate } = this.state;
-        if(loading) {
-            return <div/>
-        }
-        if(nextPerioDate !== undefined) {
+    renderNextPeriodDate() {
+        const { nextPerioDate } = this.state;
+        if (nextPerioDate !== undefined) {
             return (
-                <div className="container" style={{ marginTop: 25 }}>
-                    <div className="jumbotron">
-                        <p className="lead">Your next period is on:</p>
-                        <h1 className="display-4">
-                            <Moment format="ddd D MMM">{nextPerioDate}</Moment>
-                        </h1>
-                        <p><Countdown date={nextPerioDate} renderer={countdownRenderer}></Countdown></p>
-                        <hr className="my-4"/>
-                        <Link className="btn btn-primary btn-lg" to="/update-data" style={{ marginBottom: 0}}>Change data</Link>
-                    </div>
+                <div className="jumbotron">
+                    <p className="lead">Your next period is on:</p>
+                    <h1 className="display-4">
+                        <Moment format="ddd D MMM">{nextPerioDate}</Moment>
+                    </h1>
+                    <p><Countdown date={nextPerioDate} renderer={countdownRenderer}></Countdown></p>
+                    <hr className="my-4" />
+                    <Link className="btn btn-primary btn-lg" to="/update-data" style={{ marginBottom: 0 }}>Change data</Link>
                 </div>
             );
         }
         return (
-            <div className="container" style={{ marginTop: 25 }}>
-                <div className="jumbotron">
-                    <h1 className="display-4">You haven't uploaded any data...</h1>
-                    <hr className="my-4"/>
-                    <p className="lead">
-                        <Link className="btn btn-primary btn-lg" to="/update-data">Enter data</Link>
-                    </p>
-                </div>
+            <div className="jumbotron">
+                <h1 className="display-4">You haven't uploaded any data...</h1>
+                <hr className="my-4" />
+                <p className="lead">
+                    <Link className="btn btn-primary btn-lg" to="/update-data">Enter data</Link>
+                </p>
             </div>
         );
+    }
+
+    render() {
+        const { loading } = this.state;
+        if (loading) {
+            return <div />
+        }
+        return (
+            <div className="container" style={{ marginTop: 25 }}>
+                {this.renderNextPeriodDate()}
+                <MoodTracker />
+            </div>
+        )
     }
 }
 

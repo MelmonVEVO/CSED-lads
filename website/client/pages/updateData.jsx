@@ -144,7 +144,7 @@ class UpdateData extends React.Component {
         return (
             <Form onSubmit={this.formSubmit}>
                 <Form.Label>Start date</Form.Label>
-                <Form.Control type="date" defaultValue={newStartDate} 
+                <Form.Control type="date" defaultValue={newStartDate}
                     onChange={this.startDateChange} className={this.formClassName(this.state.errors.startDate)} />
                 <Form.Label style={{ marginTop: 10 }}>Cycle length</Form.Label>
                 <Form.Control type="number" min={1} max={31} 
