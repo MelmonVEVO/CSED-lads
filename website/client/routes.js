@@ -2,6 +2,7 @@ import Index from './pages/index.jsx';
 import Login from './pages/login.jsx';
 import CreateAccount from './pages/createAccount.jsx';
 import UpdateData from './pages/updateData.jsx';
+import MoodHistory from './pages/moodHistory.jsx';
 
 const routes = [
     {
@@ -23,6 +24,11 @@ const routes = [
     {
         path: "/update-data",
         component: UpdateData,
+        loggedIn: true
+    },
+    {
+        path: "/mood-history",
+        component: MoodHistory,
         loggedIn: true
     }
 ]

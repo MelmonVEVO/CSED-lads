@@ -10,12 +10,12 @@ import java.util.List;
 @RegisterMapper(MoodMapper.class)
 public interface MoodDao {
 
-    @SqlUpdate("INSERT INTO mood VALUES (:id, :description, now())")
-    void insert(@Bind("id") int id, @Bind("description") String description);
+    @SqlUpdate("INSERT INTO mood VALUES (:id, :score, now())")
+    void insert(@Bind("id") int id, @Bind("score") int score);
 
-    @SqlQuery("SELECT description, recorded_at FROM mood WHERE id=:id")
+    @SqlQuery("SELECT score, recorded_at FROM mood WHERE id=:id")
     List<Mood> getAll(@Bind("id") int id);
 
-    @SqlQuery("SELECT EXISTS (SELECT recorded_at FROM mood WHERE recorded_at=:date)")
-    boolean entryExists(@Bind("date") String date);
+    @SqlQuery("SELECT EXISTS (SELECT recorded_at FROM mood WHERE id=:id AND recorded_at=:date)")
+    boolean entryExists(@Bind("id") int id, @Bind("date") String date);
 }

@@ -55,7 +55,7 @@ public class Api extends Application<ApiConfig> {
         final SessionHelper sessionHelper = new SessionHelper(sessionDao);
 
         environment.jersey().register(new AccountResource(accountDao, sessionHelper));
-        environment.jersey().register(new MoodResource(moodDao));
+        environment.jersey().register(new MoodResource(moodDao, sessionHelper));
         environment.jersey().register(new TrackerResource(trackerDao, sessionHelper));
     }
 }

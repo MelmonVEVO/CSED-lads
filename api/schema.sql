@@ -16,7 +16,7 @@ PRIMARY KEY(id),
 FOREIGN KEY(account_id) REFERENCES account(id));
 
 CREATE TABLE mood(id INT UNSIGNED,
-description VARCHAR(20) NOT NULL,
+score INT NOT NULL,
 recorded_at DATE NOT NULL,
 FOREIGN KEY(id) REFERENCES account(id));
 

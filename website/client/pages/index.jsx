@@ -35,7 +35,6 @@ class Index extends React.Component {
             nextPerioDate = window.initialData.next;
         }
         this.state = {
-            loading: false,
             nextPerioDate: nextPerioDate
         }
     }
@@ -46,9 +45,8 @@ class Index extends React.Component {
 
     componentDidMount() {
         if (this.state.nextPerioDate === undefined) {
-            this.setState({ loading: true });
             fetch('http://api.csed.test/period-tracker/prediction/' + cookies.get('session')).then(res => res.json()).then(res => {
-                this.setState({ loading: false, nextPerioDate: res.next });
+                this.setState({ nextPerioDate: res.next });
             });
         }
     }
@@ -80,14 +78,10 @@ class Index extends React.Component {
     }
 
     render() {
-        const { loading } = this.state;
-        if (loading) {
-            return <div />
-        }
         return (
             <div className="container" style={{ marginTop: 25 }}>
                 {this.renderNextPeriodDate()}
-                <MoodTracker />
+                <MoodTracker {...this.props} />
             </div>
         )
     }

@@ -33,6 +33,11 @@ public class ResponseTemplate {
         return this;
     }
 
+    public ResponseTemplate put(String key, boolean value) {
+        response.put(key, value);
+        return this;
+    }
+
     public String build() {
         return response.toString();
     }

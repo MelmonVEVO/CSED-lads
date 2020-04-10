@@ -9,6 +9,6 @@ import java.sql.SQLException;
 public class MoodMapper implements ResultSetMapper<Mood> {
     @Override
     public Mood map(int i, ResultSet set, StatementContext context) throws SQLException {
-        return new Mood(set.getString("description"), set.getString("recorded_at"));
+        return new Mood(set.getInt("score"), set.getDate("recorded_at"));
     }
 }
