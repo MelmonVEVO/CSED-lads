@@ -9,9 +9,9 @@ export default class MoodGraph extends React.Component {
 
     render() {
         return (
-            <VictoryChart minDomain={{ y: 1 }} maxDomain={{ y: 5 }} >
+            <VictoryChart>
                 <VictoryAxis style={{ tickLabels: { fontSize: 6 } }} />
-                <VictoryAxis dependentAxis />
+                <VictoryAxis dependentAxis tickValues={[1,2,3,4,5]} height={300}/>
                 <VictoryLine data={this.props.data} />
             </VictoryChart>
         );
