@@ -7,6 +7,7 @@ import group.csed.api.account.session.SessionHelper;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/mood")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,9 +22,17 @@ public class MoodResource {
     }
 
     @GET
-    @Path("/{id}")
-    public Response getAll(@PathParam("id") int id) {
-        return Response.ok(dao.getAll(id)).build();
+    @Path("/{sessionID}")
+    public Response getAll(@PathParam("sessionID") String sessionID) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            final List<Mood> entries = dao.getAll(accountID);
+            if(entries != null && entries.size() > 0) {
+                return Response.ok(new ResponseTemplate(true).put("entries", dao.getAll(accountID)).build()).build();
+            }
+            return Response.ok(new ResponseTemplate(true).build()).build();
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
     }
 
     @GET

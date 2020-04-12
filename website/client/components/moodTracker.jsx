@@ -110,7 +110,7 @@ export default class MoodTracker extends React.Component {
             return <div/>;
         }
         return (
-            <div className="jumbotron">
+            <div className="jumbotron" style={this.props.style}>
                 <h1 className="display-5">Set your mood for today</h1>
                 <hr></hr>
                 {this.renderForm()}

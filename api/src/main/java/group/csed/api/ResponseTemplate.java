@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResponseTemplate {
 
     private JSONObject response;
@@ -25,6 +28,19 @@ public class ResponseTemplate {
                 e.printStackTrace();
             }
         }
+        return this;
+    }
+
+    public ResponseTemplate put(String key, List<?> value) {
+        List<JSONObject> objects = new ArrayList<>();
+        try {
+            for(Object object : value) {
+                objects.add(new JSONObject(objectWriter.writeValueAsString(object)));
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        response.put(key, objects);
         return this;
     }
 
