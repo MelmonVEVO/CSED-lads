@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 
 import Moment from 'react-moment';
 import Countdown from 'react-countdown-now';
+
 import MoodTracker from '../components/moodTracker.jsx';
+import PillAlert from '../components/pillAlert.jsx';
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -80,8 +82,9 @@ class Index extends React.Component {
     render() {
         return (
             <div className="container" style={{ marginTop: 25 }}>
+                <PillAlert />
                 {this.renderNextPeriodDate()}
-                <MoodTracker {...this.props} />
+                <MoodTracker {...this.props} redirect={true} />
             </div>
         )
     }

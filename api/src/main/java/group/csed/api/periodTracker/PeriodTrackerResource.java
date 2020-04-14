@@ -1,4 +1,4 @@
-package group.csed.api.tracker;
+package group.csed.api.periodTracker;
 
 import group.csed.api.ResponseTemplate;
 import group.csed.api.account.session.SessionHelper;
@@ -10,12 +10,12 @@ import javax.ws.rs.core.Response;
 
 @Path("/period-tracker")
 @Produces(MediaType.APPLICATION_JSON)
-public class TrackerResource {
+public class PeriodTrackerResource {
 
-    private final TrackerDao dao;
+    private final PeriodTrackerDao dao;
     private final SessionHelper sessionHelper;
 
-    public TrackerResource(TrackerDao dao, SessionHelper sessionHelper) {
+    public PeriodTrackerResource(PeriodTrackerDao dao, SessionHelper sessionHelper) {
         this.dao = dao;
         this.sessionHelper = sessionHelper;
     }

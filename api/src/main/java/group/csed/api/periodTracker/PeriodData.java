@@ -1,4 +1,4 @@
-package group.csed.api.tracker;
+package group.csed.api.periodTracker;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

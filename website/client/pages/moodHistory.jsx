@@ -8,6 +8,8 @@ import MoodGraph from '../components/moodGraph.jsx';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
+import moment from 'moment';
+
 export default class MoodHistory extends React.Component {
     constructor(props) {
         super(props);
@@ -42,7 +44,7 @@ export default class MoodHistory extends React.Component {
         const { entries } = this.state;
         if(entries !== undefined) {
             entries.map((entry) => {
-                data.push({ x: entry.recordedAt, y: entry.score });
+                data.push({ x: moment(entry.recordedAt).format('ddd D'), y: entry.score });
             });
             return <MoodGraph data={data} />
         }

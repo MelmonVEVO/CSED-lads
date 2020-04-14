@@ -20,8 +20,12 @@ score INT NOT NULL,
 recorded_at DATE NOT NULL,
 FOREIGN KEY(id) REFERENCES account(id));
 
-CREATE TABLE tracker(id INT UNSIGNED,
+CREATE TABLE period_tracker(id INT UNSIGNED,
 started DATE NOT NULL,
 cycle_length INT UNSIGNED NOT NULL,
 PRIMARY KEY(id),
+FOREIGN KEY(id) REFERENCES account(id));
+
+CREATE TABLE pill_tracker(id INT UNSIGNED,
+taken DATETIME NOT NULL,
 FOREIGN KEY(id) REFERENCES account(id));
