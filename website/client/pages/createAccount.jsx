@@ -4,6 +4,8 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
+import { Form } from 'react-bootstrap';
+
 import { TextBox } from '../components/textBox.jsx';
 import { FormSubmitBtn } from '../components/formSubmitBtn.jsx';
 
@@ -24,6 +26,7 @@ class CreateAccount extends React.Component {
         firstName: "",
         lastName: "",
         password: "",
+        pillTracking: false,
         errors: {
             email: false,
             firstName: false,
@@ -36,7 +39,7 @@ class CreateAccount extends React.Component {
     }
 
     createAccount = e => {
-        const { email, firstName, lastName, password } = this.state;
+        const { email, firstName, lastName, password, pillTracking } = this.state;
         const validateResults = validate(email, firstName, lastName, password);
         if(validateResults.email && validateResults.firstName && validateResults.lastName && validateResults.password) {
             this.setState({ loading: true });
@@ -49,7 +52,8 @@ class CreateAccount extends React.Component {
                     email: email,
                     firstName: firstName,
                     lastName: lastName,
-                    password: password
+                    password: password,
+                    pillTracking: pillTracking
                 })
             }).then(res => res.json()).then(res => {
                 if(res.success) {
@@ -92,6 +96,15 @@ class CreateAccount extends React.Component {
         this.setState({ password: e.target.value });
     }
 
+    pillTrackingEnabled = e => {
+        const value = e.target.value;
+        if(value === 'Yes') {
+            this.setState({ pillTracking: true });
+        } else if(value === 'No') {
+            this.setState({ pillTracking: false });
+        }
+    }
+
     renderError() {
         const { exists, unknown } = this.state.errors;
         if(exists) {
@@ -120,6 +133,13 @@ class CreateAccount extends React.Component {
                             error={this.state.errors.lastName} value={this.state.lastName} />
                         <TextBox type="password" text="password" onChange={this.changePassword} 
                             error={this.state.errors.password} value={this.state.password} />
+                        <Form.Group>
+                            <Form.Label>Do you want pill tracking?</Form.Label>
+                            <Form.Control as="select" defaultValue="No" onChange={this.pillTrackingEnabled}>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </Form.Control>
+                        </Form.Group>
                         <FormSubmitBtn colour="success" text="Create account" disabled={loading} block={true} />
                     </form>
                     <Link to="/login"><b>Already have an account?</b></Link>

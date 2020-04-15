@@ -7,6 +7,8 @@ first_name VARCHAR(20) NOT NULL,
 last_name VARCHAR(20) NOT NULL,
 password VARCHAR(72) NOT NULL,
 created DATETIME,
+pill_tracking BOOLEAN NOT NULL,
+period_tracking BOOLEAN NOT NULL,
 PRIMARY KEY(id));
 
 CREATE TABLE account_session(id VARCHAR(36) NOT NULL,

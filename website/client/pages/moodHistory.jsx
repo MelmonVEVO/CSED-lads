@@ -51,11 +51,14 @@ export default class MoodHistory extends React.Component {
         return <h3>No history to display</h3>
     }
 
+    onMoodSet() {
+        window.location.href = '/mood-history';
+    }
+
     render() {
-        
         return (
             <div className="container" style={{ marginTop: 20 }}>
-                <MoodTracker {...this.props} />
+                <MoodTracker {...this.props} onSet={this.onMoodSet} />
                 <h1 style={{ marginTop: 5 }}>Mood History</h1>
                 <hr></hr>
                 {this.renderGraph()}

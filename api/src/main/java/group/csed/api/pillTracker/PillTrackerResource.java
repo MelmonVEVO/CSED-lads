@@ -3,10 +3,7 @@ package group.csed.api.pillTracker;
 import group.csed.api.ResponseTemplate;
 import group.csed.api.account.session.SessionHelper;
 
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
@@ -27,7 +24,7 @@ public class PillTrackerResource {
 
     private boolean hasTaken(int accountID) {
         final String mostRecent = dao.getMostRecent(accountID);
-        if(mostRecent != null) {
+        if (mostRecent != null) {
             try {
                 final Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(mostRecent);
                 final long millis = date.getTime();
@@ -43,8 +40,23 @@ public class PillTrackerResource {
     @Path("/has-taken")
     public Response hasTaken(@CookieParam("session") String sessionID) {
         final int accountID = sessionHelper.getAccountID(sessionID);
-        if(accountID != 0) {
+        if (accountID != 0) {
             return Response.ok(new ResponseTemplate(true).put("taken", hasTaken(accountID)).build()).build();
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
+    }
+
+    @POST
+    @Path("/track")
+    public Response logTaken(@CookieParam("session") String sessionID) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if (accountID != 0) {
+            boolean logged = false;
+            if (hasTaken(accountID) == false) {
+                dao.track(accountID);
+                logged = true;
+            }
+            return Response.ok(new ResponseTemplate(true).put("logged", logged).build()).build();
         }
         return Response.ok(new ResponseTemplate(false).build()).build();
     }

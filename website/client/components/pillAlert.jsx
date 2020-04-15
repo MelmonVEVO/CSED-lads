@@ -18,6 +18,19 @@ export default class PillAlert extends React.Component {
             });
     }
 
+    btnClick = () => {
+         fetch('http://api.csed.test/pill-tracker/track', {
+            credentials: "include",
+            method: "POST"
+         }).then(res => res.json()).then(res => {
+            if(res.success) {
+                if(res.logged) {
+                    this.setState({ taken: true });
+                }
+            }
+         });
+    }
+
     render() {
         const { loading, taken } = this.state;
         if (loading || taken) {
@@ -27,9 +40,9 @@ export default class PillAlert extends React.Component {
             <div className="alert alert-info alert-dismissible fade show" role="alert">
                 <b>Have you taken your pill today?</b>
                 <div className="d-block">
-                    <button className="btn btn-primary btn-md">Yes</button>
+                    <button className="btn btn-primary btn-md" onClick={this.btnClick}>Yes</button>
                 </div>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

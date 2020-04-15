@@ -44,8 +44,11 @@ export default class MoodTracker extends React.Component {
                     "score": selected
                 })
             }).then(res => res.json()).then(res => {
-                if(res.success && this.props.redirect) {
-                    this.props.history.push('/mood-history?newEntry=true');
+                const { onSet } = this.props;
+                if(res.success) {
+                    if(onSet) {
+                        onSet();
+                    }
                 }
             });
         } else {

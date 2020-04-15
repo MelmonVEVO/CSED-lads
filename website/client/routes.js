@@ -3,6 +3,7 @@ import Login from './pages/login.jsx';
 import CreateAccount from './pages/createAccount.jsx';
 import UpdateData from './pages/updateData.jsx';
 import MoodHistory from './pages/moodHistory.jsx';
+import Settings from './pages/settings.jsx';
 
 const routes = [
     {
@@ -29,6 +30,11 @@ const routes = [
     {
         path: "/mood-history",
         component: MoodHistory,
+        loggedIn: true
+    },
+    {
+        path: "/settings",
+        component: Settings,
         loggedIn: true
     }
 ]
