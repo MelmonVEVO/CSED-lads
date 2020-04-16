@@ -15,6 +15,7 @@ class Navbar extends React.Component {
                     </button>
                     <div className="collapse navbar-collapse justify-content-end" id="navbarCollapse">
                         <div className="nav-item">
+                            <Link to="/notes">Notes</Link>
                             <Link to="/mood-history">Mood History</Link>
                             <Link to="/settings">Settings</Link>
                             <a href="/logout">Logout</a>

@@ -53,7 +53,8 @@ class CreateAccount extends React.Component {
                     firstName: firstName,
                     lastName: lastName,
                     password: password,
-                    pillTracking: pillTracking
+                    pillTracking: pillTracking,
+                    periodTracking: !pillTracking
                 })
             }).then(res => res.json()).then(res => {
                 if(res.success) {

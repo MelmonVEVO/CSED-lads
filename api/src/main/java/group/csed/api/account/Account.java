@@ -8,7 +8,7 @@ public class Account {
 
     @JsonProperty private int id;
     @JsonProperty private String email, firstName, lastName, password, created;
-    @JsonProperty private boolean pillTracking;
+    @JsonProperty private boolean pillTracking, periodTracking;
 
     public Account(int id, String email, String firstName, String lastName, String created) {
         this.id = id;
@@ -46,5 +46,9 @@ public class Account {
 
     public boolean pillTrackingEnabled() {
         return pillTracking;
+    }
+
+    public boolean periodTrackingEnabled() {
+        return periodTracking;
     }
 }

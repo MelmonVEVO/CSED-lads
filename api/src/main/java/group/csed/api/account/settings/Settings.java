@@ -11,6 +11,8 @@ public class Settings {
         this.periodTracking = periodTracking;
     }
 
+    public Settings() {}
+
     public boolean pillTrackingEnabled() {
         return pillTracking;
     }

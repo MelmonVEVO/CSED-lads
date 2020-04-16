@@ -4,6 +4,7 @@ import CreateAccount from './pages/createAccount.jsx';
 import UpdateData from './pages/updateData.jsx';
 import MoodHistory from './pages/moodHistory.jsx';
 import Settings from './pages/settings.jsx';
+import Notes from './pages/notes.jsx';
 
 const routes = [
     {
@@ -35,6 +36,11 @@ const routes = [
     {
         path: "/settings",
         component: Settings,
+        loggedIn: true
+    },
+    {
+        path: "/notes",
+        component: Notes,
         loggedIn: true
     }
 ]

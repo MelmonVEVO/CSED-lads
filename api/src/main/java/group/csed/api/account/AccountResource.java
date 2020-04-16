@@ -31,7 +31,12 @@ public class AccountResource {
             return Response.ok(new ResponseTemplate(false).build()).build();
         }
         final String encryptedPassword = BCrypt.hashpw(account.getPassword(), BCrypt.gensalt());
-        accountDao.create(account.getEmail(), account.getFirstName(), account.getLastName(), encryptedPassword, account.pillTrackingEnabled());
+        accountDao.create(account.getEmail(),
+                account.getFirstName(),
+                account.getLastName(),
+                encryptedPassword,
+                account.pillTrackingEnabled(),
+                account.periodTrackingEnabled());
         return Response.ok(new ResponseTemplate(true).build()).build();
     }
 
@@ -67,6 +72,17 @@ public class AccountResource {
             if(sessionID != null) {
                 return Response.ok(new ResponseTemplate(true).put("settings", settings).build()).build();
             }
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
+    }
+
+    @POST
+    @Path("/settings/update")
+    public Response update(@CookieParam("session") String sessionID, Settings settings) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            settingsDao.update(accountID, settings.pillTrackingEnabled(), settings.periodTrackingEnabled());
+            return Response.ok(new ResponseTemplate(true).build()).build();
         }
         return Response.ok(new ResponseTemplate(false).build()).build();
     }
