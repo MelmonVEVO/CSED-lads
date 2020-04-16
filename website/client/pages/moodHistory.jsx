@@ -10,17 +10,22 @@ const cookies = new Cookies();
 
 import moment from 'moment';
 
+import { convertFromNum } from '../utils/dateUtils.jsx';
+
 export default class MoodHistory extends React.Component {
     constructor(props) {
         super(props);
-        let entries;
+        let current, monthAverages;
         if(props.staticContext) {
-            entries = props.staticContext.entries;
+            current = props.staticContext.current;
+            monthAverages = props.staticContext.monthAverages;
         } else {
-            entries = window.initialData.entries;
+            current = window.initialData.current;
+            monthAverages = window.initialData.monthAverages;
         }
         this.state = {
-            entries: entries
+            current: current,
+            monthAverages: monthAverages
         }
     }
 
@@ -34,19 +39,33 @@ export default class MoodHistory extends React.Component {
     componentDidMount() {
         if(this.state.entries === undefined) {
             fetch('http://api.csed.test/mood/' + cookies.get('session')).then(res => res.json()).then(res => {
-                this.setState({ entries: res.entries });
+                this.setState({ current: res.current, monthAverages: res.monthAverages });
             });
         }  
     }
 
-    renderGraph() {
-        let data = []
-        const { entries } = this.state;
-        if(entries !== undefined) {
-            entries.map((entry) => {
-                data.push({ x: moment(entry.recordedAt).format('ddd D'), y: entry.score });
+    renderGraphs() {
+        let formattedCurrent = []
+        let formattedmonthAverages = []
+        const { current, monthAverages } = this.state;
+        if(current !== undefined) {
+            current.map((entry) => {
+                formattedCurrent.push({ x: moment(entry.recordedAt).format('ddd D'), y: entry.score });
             });
-            return <MoodGraph data={data} />
+            monthAverages.map((entry) => {
+                formattedmonthAverages.push({ x: convertFromNum(entry.month) + ' ' + entry.year, y: entry.average });
+            });
+            return (
+                <React.Fragment>
+                    <h3 className="text-center"><b>Last 14 days</b></h3>
+                    <MoodGraph data={formattedCurrent} lineColour={"#c43a31"} />
+                    <hr></hr>
+                    <h3 className="text-center">Weekly averages (last 14 weeks)</h3>
+                    <hr></hr>
+                    <h3 className="text-center"><b>Monthly averages (last 12 months)</b></h3>
+                    <MoodGraph data={formattedmonthAverages} lineColour={"#42A5F5"} />
+                </React.Fragment>
+            );
         }
         return <h3>No history to display</h3>
     }
@@ -61,7 +80,7 @@ export default class MoodHistory extends React.Component {
                 <MoodTracker {...this.props} onSet={this.onMoodSet} />
                 <h1 style={{ marginTop: 5 }}>Mood History</h1>
                 <hr></hr>
-                {this.renderGraph()}
+                {this.renderGraphs()}
             </div>
         )
     }

@@ -7,6 +7,8 @@ import group.csed.api.account.session.SessionHelper;
 import group.csed.api.account.settings.SettingsDao;
 import group.csed.api.mood.MoodDao;
 import group.csed.api.mood.MoodResource;
+import group.csed.api.mood.average.month.MoodMonthAverageDao;
+import group.csed.api.mood.average.week.MoodWeekAverageDao;
 import group.csed.api.periodTracker.PeriodTrackerDao;
 import group.csed.api.periodTracker.PeriodTrackerResource;
 import group.csed.api.pillTracker.PillTrackerDao;
@@ -55,12 +57,14 @@ public class Api extends Application<ApiConfig> {
         final SettingsDao settingsDao = dbi.onDemand(SettingsDao.class);
         final SessionDao sessionDao = dbi.onDemand(SessionDao.class);
         final MoodDao moodDao = dbi.onDemand(MoodDao.class);
+        final MoodMonthAverageDao moodMonthAverageDao = dbi.onDemand(MoodMonthAverageDao.class);
+        final MoodWeekAverageDao moodWeekAverageDao = dbi.onDemand(MoodWeekAverageDao.class);
         final PeriodTrackerDao periodTrackerDao = dbi.onDemand(PeriodTrackerDao.class);
         final PillTrackerDao pillTrackerDao = dbi.onDemand(PillTrackerDao.class);
         final SessionHelper sessionHelper = new SessionHelper(sessionDao);
 
         environment.jersey().register(new AccountResource(accountDao, settingsDao, sessionHelper));
-        environment.jersey().register(new MoodResource(moodDao, sessionHelper));
+        environment.jersey().register(new MoodResource(moodDao, moodMonthAverageDao, moodWeekAverageDao, sessionHelper));
         environment.jersey().register(new PeriodTrackerResource(periodTrackerDao, sessionHelper));
         environment.jersey().register(new PillTrackerResource(pillTrackerDao, sessionHelper));
     }

@@ -12,7 +12,7 @@ export default class MoodGraph extends React.Component {
             <VictoryChart>
                 <VictoryAxis style={{ tickLabels: { fontSize: 6 } }} />
                 <VictoryAxis dependentAxis tickValues={[1,2,3,4,5]}/>
-                <VictoryLine data={this.props.data} />
+                <VictoryLine data={this.props.data} style={{ data: { stroke: this.props.lineColour } }} />
             </VictoryChart>
         );
     }
