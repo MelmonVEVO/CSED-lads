@@ -112,7 +112,7 @@ class Index extends React.Component {
                     <div className="jumbotron">
                         <h1 className="display-4">Welcome!</h1>
                         <hr></hr>
-                        <p>You currently don't have period tracking enabled. Enable it on the settings page.</p>
+                        <p>You currently don't have period tracking enabled. Enable it on the <Link to="/settings">settings</Link> page.</p>
                     </div>
                 )
             }    

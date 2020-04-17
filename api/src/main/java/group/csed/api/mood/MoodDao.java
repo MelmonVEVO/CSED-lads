@@ -13,7 +13,7 @@ public interface MoodDao {
     @SqlUpdate("INSERT INTO mood VALUES (:id, :score, now())")
     void insert(@Bind("id") int id, @Bind("score") int score);
 
-    @SqlQuery("SELECT score, recorded_at FROM mood WHERE id=:id ORDER BY recorded_at LIMIT 14")
+    @SqlQuery("SELECT score, recorded_at FROM mood WHERE id=:id ORDER BY recorded_at DESC LIMIT 14")
     List<Mood> getAll(@Bind("id") int id);
 
     @SqlQuery("SELECT EXISTS (SELECT recorded_at FROM mood WHERE id=:id AND recorded_at=:date)")

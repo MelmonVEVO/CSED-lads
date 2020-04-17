@@ -15,16 +15,19 @@ import { convertFromNum } from '../utils/dateUtils.jsx';
 export default class MoodHistory extends React.Component {
     constructor(props) {
         super(props);
-        let current, monthAverages;
+        let current, weekAverages, monthAverages;
         if(props.staticContext) {
             current = props.staticContext.current;
+            weekAverages = props.staticContext.weekAverages;
             monthAverages = props.staticContext.monthAverages;
         } else {
             current = window.initialData.current;
+            weekAverages = window.initialData.weekAverages;
             monthAverages = window.initialData.monthAverages;
         }
         this.state = {
             current: current,
+            weekAverages: weekAverages,
             monthAverages: monthAverages
         }
     }
@@ -39,7 +42,7 @@ export default class MoodHistory extends React.Component {
     componentDidMount() {
         if(this.state.entries === undefined) {
             fetch('http://api.csed.test/mood/' + cookies.get('session')).then(res => res.json()).then(res => {
-                this.setState({ current: res.current, monthAverages: res.monthAverages });
+                this.setState({ current: res.current, weekAverages: res.weekAverages, monthAverages: res.monthAverages });
             });
         }  
     }
@@ -47,23 +50,29 @@ export default class MoodHistory extends React.Component {
     renderGraphs() {
         let formattedCurrent = []
         let formattedmonthAverages = []
-        const { current, monthAverages } = this.state;
+        let formattedWeekAverages = []
+        const { current, monthAverages, weekAverages } = this.state;
         if(current !== undefined) {
-            current.map((entry) => {
+            current.map(entry => {
                 formattedCurrent.push({ x: moment(entry.recordedAt).format('ddd D'), y: entry.score });
             });
-            monthAverages.map((entry) => {
+            monthAverages.map(entry => {
                 formattedmonthAverages.push({ x: convertFromNum(entry.month) + ' ' + entry.year, y: entry.average });
             });
+            weekAverages.map(entry => {
+                formattedWeekAverages.push({ x: entry.week + ' ' + convertFromNum(entry.month), y: entry.average });
+            });
+            formattedCurrent.reverse();
             return (
                 <React.Fragment>
-                    <h3 className="text-center"><b>Last 14 days</b></h3>
+                    <h3 className="text-center">Last 14 days</h3>
                     <MoodGraph data={formattedCurrent} lineColour={"#c43a31"} />
                     <hr></hr>
                     <h3 className="text-center">Weekly averages (last 14 weeks)</h3>
+                    <MoodGraph data={formattedWeekAverages} lineColour={"#00E676"} />
                     <hr></hr>
-                    <h3 className="text-center"><b>Monthly averages (last 12 months)</b></h3>
-                    <MoodGraph data={formattedmonthAverages} lineColour={"#42A5F5"} />
+                    <h3 className="text-center">Monthly averages (last 12 months)</h3>
+                    <MoodGraph data={formattedmonthAverages} lineColour={"#18FFFF"} />
                 </React.Fragment>
             );
         }
