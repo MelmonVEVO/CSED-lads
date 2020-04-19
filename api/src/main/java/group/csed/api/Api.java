@@ -9,6 +9,9 @@ import group.csed.api.mood.MoodDao;
 import group.csed.api.mood.MoodResource;
 import group.csed.api.mood.average.month.MoodMonthAverageDao;
 import group.csed.api.mood.average.week.MoodWeekAverageDao;
+import group.csed.api.notes.NoteDao;
+import group.csed.api.notes.NoteResource;
+import group.csed.api.notes.search.NoteSearchDao;
 import group.csed.api.periodTracker.PeriodTrackerDao;
 import group.csed.api.periodTracker.PeriodTrackerResource;
 import group.csed.api.pillTracker.PillTrackerDao;
@@ -61,11 +64,14 @@ public class Api extends Application<ApiConfig> {
         final MoodWeekAverageDao moodWeekAverageDao = dbi.onDemand(MoodWeekAverageDao.class);
         final PeriodTrackerDao periodTrackerDao = dbi.onDemand(PeriodTrackerDao.class);
         final PillTrackerDao pillTrackerDao = dbi.onDemand(PillTrackerDao.class);
+        final NoteDao noteDao = dbi.onDemand(NoteDao.class);
+        final NoteSearchDao noteSearchDao = dbi.onDemand(NoteSearchDao.class);
         final SessionHelper sessionHelper = new SessionHelper(sessionDao);
 
         environment.jersey().register(new AccountResource(accountDao, settingsDao, sessionHelper));
         environment.jersey().register(new MoodResource(moodDao, moodMonthAverageDao, moodWeekAverageDao, sessionHelper));
         environment.jersey().register(new PeriodTrackerResource(periodTrackerDao, sessionHelper));
         environment.jersey().register(new PillTrackerResource(pillTrackerDao, sessionHelper));
+        environment.jersey().register(new NoteResource(noteDao, noteSearchDao, sessionHelper));
     }
 }
