@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Button, Form } from 'react-bootstrap';
 
@@ -13,8 +14,9 @@ export default class NoteEditor extends React.Component {
         let note;
         if (props.staticContext) {
             note = props.staticContext.note;
-        } else {
+        } else if(window.initialData !== undefined) {
             note = window.initialData.note;
+            delete window.initialData;
         }
         this.state = {
             editing: false,
@@ -41,6 +43,31 @@ export default class NoteEditor extends React.Component {
         }
     }
 
+    updateClick = e => {
+        const { id } = this.state.note;
+        const { newNote } = this.state;
+        if(newNote !== undefined) {
+            fetch('http://api.csed.test/notes/update', {
+                credentials: "include",
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    "id": id,
+                    "title": newNote.title,
+                    "content": newNote.content
+                })
+            }).then(res => res.json()).then(res => {
+                if(res.success) {
+                    newNote.id = id;
+                    this.setState({ editing: false, note: newNote, newNote: undefined });
+                }
+            });
+        }
+        e.preventDefault();
+    }
+
     editBtnClick = () => {
         const note = this.state.note;
         this.setState({ editing: true, newNote: { title: note.title, content: note.content } });   
@@ -50,20 +77,34 @@ export default class NoteEditor extends React.Component {
         this.setState({ editing: false, newNote: undefined });
     }
 
-    renderForm(note) {
-        const { editing } = this.state;
+    contentChange = e => {
+        let note = this.state.newNote;
+        note.content = e.target.value;
+        this.setState({ newNote: note });
+    }
+
+    titleChange = e => {
+        let note = this.state.newNote;
+        note.title = e.target.value;
+        this.setState({ newNote: note });
+    }
+
+    renderForm(note, editing) {
         if (editing) {
             return (
                 <Form>
                     <Form.Group>
                         <Form.Label>Title</Form.Label>
-                        <Form.Control type="text" defaultValue={note.title} />
+                        <Form.Control type="text" defaultValue={note.title} onChange={this.titleChange} />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Content</Form.Label>
-                        <Form.Control as="textarea" rows="4" defaultValue={note.content} />
+                        <Form.Control as="textarea" rows="4" defaultValue={note.content} onChange={this.contentChange} />
                     </Form.Group>
-                    <Button variant="dark" onClick={this.cancelBtnClick}>Cancel</Button>
+                    <div className="d-inline">
+                        <Button variant="success" type="submit" style={{ marginRight: 5 }} onClick={this.updateClick}>Update</Button>
+                        <Button variant="dark" onClick={this.cancelBtnClick}>Cancel</Button>
+                    </div>
                 </Form>
             );
         }
@@ -77,21 +118,22 @@ export default class NoteEditor extends React.Component {
                     <Form.Label>Content</Form.Label>
                     <Form.Control readOnly as="textarea" rows="4" defaultValue={note.content} />
                 </Form.Group>
-                <Button variant="warning" onClick={this.editBtnClick}>Edit</Button>
+                <Button variant="warning" onClick={this.editBtnClick} style={{ marginRight: 5 }}>Edit</Button>
+                <Link className="btn btn-dark" to="/notes">Back</Link>
             </React.Fragment>
         )
     }
 
     render() {
-        const { note } = this.state;
+        const { note, editing } = this.state;
         if (note === undefined) {
             return <div />;
         }
         return (
             <div className="container" style={{ marginTop: 20 }}>
-                <h1>Note editor</h1>
+                <h1>{editing ? "Editing" : "Viewing"}</h1>
                 <hr></hr>
-                {this.renderForm(note)}
+                {this.renderForm(note, editing)}
             </div>
         );
     }

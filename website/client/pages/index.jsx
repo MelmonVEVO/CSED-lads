@@ -36,13 +36,14 @@ class Index extends React.Component {
             if (settings.periodTracking) {
                 nextPeriodDate = props.staticContext.next;
             }
-        } else {
+        } else if(window.initialData !== undefined) {
             settings = window.initialData.settings;
             if (settings !== undefined) {
                 if (settings.periodTracking) {
                     nextPeriodDate = window.initialData.next;
                 }
             }
+            delete window.initialData;
         }
         this.state = {
             settings: settings,

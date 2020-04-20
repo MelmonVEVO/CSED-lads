@@ -20,7 +20,7 @@ export default class MoodHistory extends React.Component {
             current = props.staticContext.current;
             weekAverages = props.staticContext.weekAverages;
             monthAverages = props.staticContext.monthAverages;
-        } else {
+        } else if(window.initialData !== undefined) {
             current = window.initialData.current;
             weekAverages = window.initialData.weekAverages;
             monthAverages = window.initialData.monthAverages;

@@ -34,6 +34,17 @@ public class NoteResource {
         return Response.ok(new ResponseTemplate(false).build()).build();
     }
 
+    @POST
+    @Path("/update")
+    public Response update(@CookieParam("session") String sessionID, Note note) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            noteDao.update(note.getId(), accountID, note.getTitle(), note.getContent());
+            return Response.ok(new ResponseTemplate(true).build()).build();
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
+    }
+
     @GET
     @Path("/{sessionID}")
     public Response get(@PathParam("sessionID") String sessionID) {

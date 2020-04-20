@@ -16,8 +16,9 @@ export default class Notes extends React.Component {
         let notes;
         if (props.staticContext) {
             notes = props.staticContext.notes;
-        } else {
+        } else if(window.intialData !== undefined) {
             notes = window.initialData.notes;
+            delete window.intialData;
         }
         this.state = {
             notes: notes

@@ -16,7 +16,7 @@ export default class Settings extends React.Component {
         let settings;
         if(props.staticContext) {
             settings = props.staticContext.settings;
-        } else {
+        } else if(window.initialData) {
             settings = window.initialData.settings;
         }
         this.state = {

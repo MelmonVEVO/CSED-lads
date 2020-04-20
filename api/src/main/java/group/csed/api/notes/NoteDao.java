@@ -13,4 +13,7 @@ public interface NoteDao {
 
     @SqlQuery("SELECT id, title, content, created, edited FROM note WHERE id=:noteID AND account_id=:accountID")
     Note get(@Bind("noteID") int id, @Bind("accountID") int accountID);
+
+    @SqlUpdate("UPDATE note SET title=:title, content=:content, edited=NOW() WHERE id=:id AND account_id=:accountID")
+    void update(@Bind("id") int noteID, @Bind("accountID") int accountID, @Bind("title") String title, @Bind("content") String content);
 }
