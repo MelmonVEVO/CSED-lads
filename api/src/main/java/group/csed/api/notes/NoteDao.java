@@ -16,4 +16,7 @@ public interface NoteDao {
 
     @SqlUpdate("UPDATE note SET title=:title, content=:content, edited=NOW() WHERE id=:id AND account_id=:accountID")
     void update(@Bind("id") int noteID, @Bind("accountID") int accountID, @Bind("title") String title, @Bind("content") String content);
+
+    @SqlUpdate("DELETE FROM note WHERE id=:id AND account_id=:accountID")
+    void delete(@Bind("id") int noteID, @Bind("accountID") int accountID);
 }

@@ -68,6 +68,24 @@ export default class NoteEditor extends React.Component {
         e.preventDefault();
     }
 
+    delete = () => {
+        const { id } = this.state.note;
+        fetch('http://api.csed.test/notes/delete', {
+            credentials: "include",
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        }).then(res => res.json()).then(res => {
+            if(res.success) {
+                this.props.history.push('/notes');
+            }
+        });
+    }
+
     editBtnClick = () => {
         const note = this.state.note;
         this.setState({ editing: true, newNote: { title: note.title, content: note.content } });   
@@ -119,6 +137,7 @@ export default class NoteEditor extends React.Component {
                     <Form.Control readOnly as="textarea" rows="4" defaultValue={note.content} />
                 </Form.Group>
                 <Button variant="warning" onClick={this.editBtnClick} style={{ marginRight: 5 }}>Edit</Button>
+                <Button variant="danger" onClick={this.delete} style={{ marginRight: 5 }}>Delete</Button>
                 <Link className="btn btn-dark" to="/notes">Back</Link>
             </React.Fragment>
         )

@@ -65,4 +65,15 @@ public class NoteResource {
         }
         return Response.ok(new ResponseTemplate(false).build()).build();
     }
+
+    @POST
+    @Path("/delete")
+    public Response delete(@CookieParam("session") String sessionID, Note note) {
+        final int accountID = sessionHelper.getAccountID(sessionID);
+        if(accountID != 0) {
+            noteDao.delete(note.getId(), accountID);
+            return Response.ok(new ResponseTemplate(true).build()).build();
+        }
+        return Response.ok(new ResponseTemplate(false).build()).build();
+    }
 }

@@ -31,8 +31,9 @@ class UpdateData extends React.Component {
         let currentData;
         if (props.staticContext) {
             currentData = props.staticContext.data;
-        } else {
+        } else if(window.initialData !== undefined) {
             currentData = window.initialData.data;
+            delete window.initialData;
         }
         this.state = {
             loading: false,
