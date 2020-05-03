@@ -1,15 +1,14 @@
 package group.csed.api.mood.average.month;
 
-import group.csed.api.mood.average.month.MoodMonthAverage;
-import org.skife.jdbi.v2.StatementContext;
-import org.skife.jdbi.v2.tweak.ResultSetMapper;
+import org.jdbi.v3.core.mapper.RowMapper;
+import org.jdbi.v3.core.statement.StatementContext;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MoodMonthAverageMapper implements ResultSetMapper<MoodMonthAverage> {
+public class MoodMonthAverageMapper implements RowMapper<MoodMonthAverage> {
     @Override
-    public MoodMonthAverage map(int i, ResultSet set, StatementContext context) throws SQLException {
+    public MoodMonthAverage map(ResultSet set, StatementContext context) throws SQLException {
         return new MoodMonthAverage(set.getInt("year"), set.getInt("month"), set.getFloat("average"));
     }
 }

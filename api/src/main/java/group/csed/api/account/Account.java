@@ -51,4 +51,32 @@ public class Account {
     public boolean periodTrackingEnabled() {
         return periodTracking;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPillTracking(boolean pillTracking) {
+        this.pillTracking = pillTracking;
+    }
+
+    public void setPeriodTracking(boolean periodTracking) {
+        this.periodTracking = periodTracking;
+    }
 }

@@ -36,11 +36,4 @@ public class PeriodPrediction {
         }
         return dateFormat.format(next);
     }
-
-    public static double getLengthOfCycle(Date startDate, Date endDate) {
-        long startTime = startDate.getTime();
-        long endTime = endDate.getTime();
-        long timeDiff = endTime - startTime;
-        return timeDiff / (8.64 * Math.pow(10, 7));
-    }
 }

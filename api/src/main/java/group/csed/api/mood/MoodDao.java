@@ -1,13 +1,13 @@
 package group.csed.api.mood;
 
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.util.List;
 
-@RegisterMapper(MoodMapper.class)
+@RegisterRowMapper(MoodMapper.class)
 public interface MoodDao {
 
     @SqlUpdate("INSERT INTO mood VALUES (:id, :score, now())")

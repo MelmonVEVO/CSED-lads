@@ -18,10 +18,10 @@ import group.csed.api.pillTracker.PillTrackerDao;
 import group.csed.api.pillTracker.PillTrackerResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.jdbi.DBIFactory;
+import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.skife.jdbi.v2.DBI;
+import org.jdbi.v3.core.Jdbi;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -36,11 +36,11 @@ public class Api extends Application<ApiConfig> {
 
     @Override
     public void run(ApiConfig config, Environment environment) {
-        final DBIFactory factory = new DBIFactory();
+        final JdbiFactory factory = new JdbiFactory();
         DataSourceFactory database = config.getDatabase();
         database.setPassword(System.getenv("DB_PASSWORD"));
 
-        final DBI dbi = factory.build(environment, database, "mysql");
+        final Jdbi dbi = factory.build(environment, database, "mysql");
         final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         cors.setInitParameter("allowedOrigins", "*");
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
@@ -55,7 +55,7 @@ public class Api extends Application<ApiConfig> {
      * @param environment
      * @param dbi
      */
-    private void registerResources(Environment environment, DBI dbi) {
+    private void registerResources(Environment environment, Jdbi dbi) {
         final AccountDao accountDao = dbi.onDemand(AccountDao.class);
         final SettingsDao settingsDao = dbi.onDemand(SettingsDao.class);
         final SessionDao sessionDao = dbi.onDemand(SessionDao.class);

@@ -1,13 +1,13 @@
 package group.csed.api.periodTracker;
 
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.util.Date;
 
-@RegisterMapper(PeriodTrackerMapper.class)
+@RegisterRowMapper(PeriodTrackerMapper.class)
 public interface PeriodTrackerDao {
 
     @SqlUpdate("INSERT INTO period_tracker VALUES (:id, :started, :cycleLength)")

@@ -1,11 +1,12 @@
 package group.csed.api.notes;
 
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
-@RegisterMapper(NoteMapper.class)
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+
+@RegisterRowMapper(NoteMapper.class)
 public interface NoteDao {
 
     @SqlUpdate("INSERT INTO note VALUES (default, :id, :title, :content, now(), null)")

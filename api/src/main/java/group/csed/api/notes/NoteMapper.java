@@ -1,14 +1,14 @@
 package group.csed.api.notes;
 
-import org.skife.jdbi.v2.StatementContext;
-import org.skife.jdbi.v2.tweak.ResultSetMapper;
+import org.jdbi.v3.core.mapper.RowMapper;
+import org.jdbi.v3.core.statement.StatementContext;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class NoteMapper implements ResultSetMapper<Note> {
+public class NoteMapper implements RowMapper<Note> {
     @Override
-    public Note map(int i, ResultSet set, StatementContext context) throws SQLException {
+    public Note map(ResultSet set, StatementContext context) throws SQLException {
         return new Note(
                 set.getInt("id"),
                 set.getString("title"),
