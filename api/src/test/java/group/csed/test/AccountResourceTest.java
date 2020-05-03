@@ -1,4 +1,4 @@
-package group.csed.api;
+package group.csed.test;
 
 import group.csed.api.account.Account;
 import group.csed.api.account.AccountDao;
@@ -8,7 +8,6 @@ import group.csed.api.account.settings.SettingsDao;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.testing.junit5.ResourceExtension;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -28,13 +27,8 @@ public class AccountResourceTest {
     private ArgumentCaptor<Account> accountCaptor = ArgumentCaptor.forClass(Account.class);
     private Account account;
 
-    @BeforeEach
-    public void setUp() {
-        account = new Account();
-    }
-
     @Test
-    public void createAccount() {
+    public void testAccountResource() {
         int test = 30;
         Assertions.assertEquals(30, test);
     }
