@@ -26,7 +26,6 @@
         <bcrypt.version>0.3m</bcrypt.version>
         <slf4j.version>1.7.25</slf4j.version>
         <mysql.version>6.0.6</mysql.version>
-        <asynchttpclient.version>2.0.35</asynchttpclient.version>
         <json.version>20190722</json.version>
         <gson.version>2.8.6</gson.version>
         <fasterxml.version>2.9.4</fasterxml.version>
@@ -86,13 +85,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
-            </dependency>
-
-            <!-- HTTP client -->
-            <dependency>
-                <groupId>org.asynchttpclient</groupId>
-                <artifactId>async-http-client</artifactId>
-                <version>${asynchttpclient.version}</version>
             </dependency>
 
             <!-- Logging -->
