@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Settings {
 
-    @JsonProperty private boolean pillTracking, periodTracking;
+    @JsonProperty private boolean periodTracking, pillTracking;
 
     public Settings(boolean pillTracking, boolean periodTracking) {
         this.pillTracking = pillTracking;
