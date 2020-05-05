@@ -25,4 +25,12 @@ public class Mood {
     public Date getRecordedAt() {
         return recordedAt;
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setRecordedAt(Date date) {
+        this.recordedAt = date;
+    }
 }

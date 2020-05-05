@@ -34,9 +34,16 @@ public class MoodResourceTest {
             .addResource(new MoodResource(MOOD_DAO, MOOD_MONTH_AVERAGE_DAO, MOOD_WEEK_AVERAGE_DAO, SESSION_HELPER))
             .build();
 
+    private Mood mood;
+
+    public MoodResourceTest() {
+        mood = new Mood();
+        mood.setRecordedAt(new Date());
+    }
+
     @Test
     public void trackMood() {
-        Mood mood = new Mood(5, new Date());
+        mood.setScore(5);
         when(SESSION_HELPER.getAccountID(TEST_SESSION_ID)).thenReturn(1);
         when(MOOD_DAO.entryExists(1, new Date().toString())).thenReturn(false);
         doNothing().when(MOOD_DAO).insert(1, mood.getScore());
@@ -49,5 +56,39 @@ public class MoodResourceTest {
         JSONObject json = new JSONObject(response.readEntity(String.class));
         Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
         Assertions.assertThat(json.get("success")).isEqualTo(true);
+    }
+
+    @Test
+    public void trackMoodScoreBelow() {
+        mood.setScore(-1);
+        when(SESSION_HELPER.getAccountID(TEST_SESSION_ID)).thenReturn(1);
+        when(MOOD_DAO.entryExists(1, new Date().toString())).thenReturn(false);
+        doNothing().when(MOOD_DAO).insert(1, mood.getScore());
+
+        final Response response = RESOURCES.target("/mood/insert")
+                .request()
+                .cookie("session", TEST_SESSION_ID)
+                .post(Entity.entity(mood, MediaType.APPLICATION_JSON));
+
+        JSONObject json = new JSONObject(response.readEntity(String.class));
+        Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+        Assertions.assertThat(json.get("success")).isEqualTo(false);
+    }
+
+    @Test
+    public void trackMoodScoreAbove() {
+        mood.setScore(6);
+        when(SESSION_HELPER.getAccountID(TEST_SESSION_ID)).thenReturn(1);
+        when(MOOD_DAO.entryExists(1, new Date().toString())).thenReturn(false);
+        doNothing().when(MOOD_DAO).insert(1, mood.getScore());
+
+        final Response response = RESOURCES.target("/mood/insert")
+                .request()
+                .cookie("session", TEST_SESSION_ID)
+                .post(Entity.entity(mood, MediaType.APPLICATION_JSON));
+
+        JSONObject json = new JSONObject(response.readEntity(String.class));
+        Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+        Assertions.assertThat(json.get("success")).isEqualTo(false);
     }
 }
