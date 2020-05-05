@@ -43,6 +43,7 @@ public class MoodResourceTest {
 
         final Response response = RESOURCES.target("/mood/insert")
                 .request()
+                .cookie("session", TEST_SESSION_ID)
                 .post(Entity.entity(mood, MediaType.APPLICATION_JSON));
 
         JSONObject json = new JSONObject(response.readEntity(String.class));
