@@ -24,16 +24,19 @@ public class PeriodPrediction {
     }
 
     public static String getNextPeriodDate(Date previousPeriod, int cycleLen) {
-        Date next = addDays(previousPeriod, cycleLen);
-        final long currentTime = System.currentTimeMillis();
-        if(currentTime > next.getTime()) {
-            int scalar = 1;
-            int daysDiff = (int) ((currentTime - next.getTime()) / (1000 * 60 * 60 * 24));
-            if(daysDiff > cycleLen) {
-                scalar = (daysDiff / cycleLen) + 1;
+        if(cycleLen > 0) {
+            Date next = addDays(previousPeriod, cycleLen);
+            final long currentTime = System.currentTimeMillis();
+            if(currentTime > next.getTime()) {
+                int scalar = 1;
+                int daysDiff = (int) ((currentTime - next.getTime()) / (1000 * 60 * 60 * 24));
+                if(daysDiff > cycleLen) {
+                    scalar = (daysDiff / cycleLen) + 1;
+                }
+                return dateFormat.format(addDays(previousPeriod, cycleLen * scalar + cycleLen));
             }
-            return dateFormat.format(addDays(previousPeriod, cycleLen * scalar + cycleLen));
+            return dateFormat.format(next);
         }
-        return dateFormat.format(next);
+        return null;
     }
 }

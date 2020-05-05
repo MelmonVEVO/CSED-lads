@@ -38,10 +38,6 @@ public class AccountResourceTest {
         account = new Account();
         account.setId(1);
         account.setEmail("test@test.com");
-        account.setFirstName("test");
-        account.setLastName("test");
-        account.setPeriodTracking(true);
-        account.setPeriodTracking(true);
     }
 
     @Test
@@ -80,6 +76,11 @@ public class AccountResourceTest {
 
     @Test
     public void createValidAccount() {
+        account.setFirstName("test");
+        account.setLastName("test");
+        account.setPeriodTracking(true);
+        account.setPeriodTracking(true);
+
         doNothing().when(ACCOUNT_DAO).create(
                 account.getEmail(),
                 account.getFirstName(),
@@ -101,6 +102,11 @@ public class AccountResourceTest {
 
     @Test
     public void createAccountThatAlreadyExists() {
+        account.setFirstName("test");
+        account.setLastName("test");
+        account.setPeriodTracking(true);
+        account.setPeriodTracking(true);
+
         doNothing().when(ACCOUNT_DAO).create(
                 account.getEmail(),
                 account.getFirstName(),
@@ -134,5 +140,51 @@ public class AccountResourceTest {
         Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
         Assertions.assertThat(json.get("success")).isEqualTo(true);
         Assertions.assertThat(json.get("settings").toString()).isEqualTo(RESOURCES.getObjectMapper().writeValueAsString(settings));
+    }
+
+    @Test
+    public void getSettingsInvalidID() {
+        Settings settings = new Settings(true, true);
+        when(SESSION_HELPER.getAccountID(TEST_SESSION_ID)).thenReturn(0);
+        when(SETTINGS_DAO.getSettings(account.getId())).thenReturn(settings);
+
+        final Response response = RESOURCES.target("/accounts/settings/" + TEST_SESSION_ID)
+                .request()
+                .get();
+
+        JSONObject json = new JSONObject(response.readEntity(String.class));
+        Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+        Assertions.assertThat(json.get("success")).isEqualTo(false);
+    }
+
+    @Test
+    public void updateSettings() {
+        Settings settings = new Settings(false, false);
+        when(SESSION_HELPER.getAccountID(TEST_SESSION_ID)).thenReturn(1);
+        doNothing().when(SETTINGS_DAO).update(account.getId(), settings.pillTrackingEnabled(), settings.periodTrackingEnabled());
+
+        final Response response = RESOURCES.target("/accounts/settings/update")
+                .request()
+                .cookie("session", TEST_SESSION_ID)
+                .post(Entity.entity(settings, MediaType.APPLICATION_JSON));
+
+        JSONObject json = new JSONObject(response.readEntity(String.class));
+        Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+        Assertions.assertThat(json.get("success")).isEqualTo(true);
+    }
+
+    @Test
+    public void updateSettingsInvalid() {
+        Settings settings = new Settings(false, false);
+        when(SESSION_HELPER.getAccountID(TEST_SESSION_ID)).thenReturn(0);
+        doNothing().when(SETTINGS_DAO).update(account.getId(), settings.pillTrackingEnabled(), settings.periodTrackingEnabled());
+
+        final Response response = RESOURCES.target("/accounts/settings/update")
+                .request()
+                .post(Entity.entity(settings, MediaType.APPLICATION_JSON));
+
+        JSONObject json = new JSONObject(response.readEntity(String.class));
+        Assertions.assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+        Assertions.assertThat(json.get("success")).isEqualTo(false);
     }
 }
